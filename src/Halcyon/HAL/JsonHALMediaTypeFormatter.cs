@@ -28,6 +28,8 @@ namespace Halcyon.HAL {
             foreach(var mediaType in jsonMedaiTypes.Where(t => t != JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
+
+            this.jsonMedaiTypes = jsonMedaiTypes;
         }
 
         public override bool CanReadType(Type type) {
