@@ -15,7 +15,7 @@ namespace Halcyon.HAL {
 
         private readonly string[] jsonMedaiTypes;
 
-        public JsonHALMediaTypeFormatter(string[] halJsonMedaiTypes = null, string[] jsonMedaiTypes = null)
+        public JsonHALMediaTypeFormatter(string[] halJsonMedaiTypes = null, string[] jsonMediaTypes = null)
             : base() {
             if (halJsonMedaiTypes == null) {
                 halJsonMedaiTypes = new string[] { HalJsonType };
@@ -25,11 +25,11 @@ namespace Halcyon.HAL {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
 
-            foreach(var mediaType in jsonMedaiTypes.Where(t => t != JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
+            foreach(var mediaType in jsonMediaTypes.Where(t => t != JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
 
-            this.jsonMedaiTypes = jsonMedaiTypes;
+            this.jsonMedaiTypes = jsonMediaTypes;
         }
 
         public override bool CanReadType(Type type) {
@@ -50,7 +50,8 @@ namespace Halcyon.HAL {
             if(type == typeof(HALModel) && value != null) {
                 var halResponse = ((HALModel)value);
 
-                if (!halResponse.Config.ForceHAL && jsonMedaiTypes.Contains(content.Headers.ContentType.MediaType)) {
+                string mediaType = content.Headers.ContentType.MediaType;
+                if (!halResponse.Config.ForceHAL && (jsonMedaiTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
                     value = halResponse.ToPlainResponse();
                 }
             }
