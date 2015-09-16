@@ -118,6 +118,41 @@ The self link is a special link that references the current resource.
       "count": "2"
     }
 
+## Accept Header
+
+By default HAL method returns HAL formatted responses regardless of the Accept Header.
+If you need to return both HAL and standard JSON you can configure this using the ``JsonHALMediaTypeFormatter``.
+
+    config.Formatters.RemoveAt(0);
+    config.Formatters.Insert(0, new JsonHALMediaTypeFormatter(
+        halJsonMedaiTypes: new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" },
+        jsonMedaiTypes: new string[] { "application/vnd.example+json", "application/vnd.example.v1+json" }
+    ));
+
+This will return responses without the HAL properties for requests that send an Accept Type included in the ``jsonMedaiTypes`` array.
+Embedded collections will be attached at the root of the JSON Object.
+
+
+    {
+      "fooId": 1,
+      "count": 2,
+      "bars": [
+        {
+          "id": 1,
+          "fooId": 1,
+          "type": "bar"
+        },
+        {
+          "id": 2,
+          "fooId": 1,
+          "type": "bar"
+        }
+      ]
+    }
+
+## TODO
+* Support Arrays of Links [#1](https://github.com/CareerHub/Halcyon/issues/1)
+
 ## Compatability with HALON
 [Halon](https://github.com/LeanKit-Labs/halon) is a HAL Javascript client that adds non-standard properties.
 
