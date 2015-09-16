@@ -31,16 +31,16 @@ The self link is a special link that references the current resource.
                 id = id,
                 type = "foo"
             };
-    
+            
             // Return a simple resource with links to related resources
-            return HAL(fooModel, new Link[] {
+            return this.HAL(fooModel, new Link[] {
                 new Link("self", "/api/foo/{id}"),
                 new Link("foo:bar", "/api/foo/{id}/bar")
             });
         }
     
         [HttpGet, Route("{fooId:int}/bars")]
-        public IHttpActionResult Get(int fooId) {
+        public IHttpActionResult GetBar(int fooId) {
             // A collection of bars related to foo
             var bars = new List<object> {
                 new { id = 1, fooId = fooId, type = "bar" },
@@ -54,11 +54,11 @@ The self link is a special link that references the current resource.
             };
     
             // Return a fooBar resource with embedded bars
-            return HAL(
+            return this.HAL(
                 fooBarModel,
                 new Link[] {
                     new Link("self", "/api/foo/{fooId}/bar")
-                }
+                },
                 "bars",
                 bars,
                 new Link[] {
