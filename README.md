@@ -25,7 +25,7 @@ The self link is a special link that references the current resource.
     public class FooController : ApiController {
     
         [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> Get(int id) {
+        public IHttpActionResult Get(int id) {
             // Any plain old object will do
             var fooModel = new {
                 id = id,
@@ -40,7 +40,7 @@ The self link is a special link that references the current resource.
         }
     
         [HttpGet, Route("{fooId:int}/bars")]
-        public async Task<IHttpActionResult> Get(int fooId) {
+        public IHttpActionResult Get(int fooId) {
             // A collection of bars related to foo
             var bars = new List<object> {
                 new { id = 1, fooId = fooId, type = "bar" },
