@@ -10,7 +10,7 @@
     <description>Adds HAL support to ASP.NET WebAPI</description>
     <releaseNotes>This is the initial release.</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>CareerHub</tags>
+    <tags>Hypermedia ASP.NET HAL JSON WebApi</tags>
     <dependencies>
       <dependency id="Tavis.UriTemplates" version="0.6.4" />
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
