@@ -20,7 +20,9 @@ namespace Halcyon.Tests.HAL {
 
         private readonly IEnumerable<Link> modelLinks = new List<Link> {
             new Link(Link.RelForSelf, "test"),
-            new Link("number", "number/{number}")
+            new Link("number", "number/{number}"),
+            new Link("operations", "operations/plus"),
+            new Link("operations", "operations/minus")
         };
 
         public HALModelTests() {
@@ -113,20 +115,27 @@ namespace Halcyon.Tests.HAL {
         }
 
         private static void AssertModelLinks(dynamic dyn) {
-            var links = dyn._links as Dictionary<string, Link>;
+            var links = dyn._links as Dictionary<string, object>;
 
             Assert.NotNull(links);
 
-            var selfLink = links[Link.RelForSelf];
+            var selfLink = links[Link.RelForSelf] as Link;
 
             Assert.NotNull(selfLink);
             Assert.Equal(Link.RelForSelf, selfLink.Rel);
             Assert.Equal("test", selfLink.Href);
 
-            var numberLink = links["number"];
+            var numberLink = links["number"] as Link;
             Assert.NotNull(numberLink);
             Assert.Equal("number", numberLink.Rel);
             Assert.Equal("number/1", numberLink.Href);
+
+
+            var operationLinks = links["operations"] as IEnumerable<Link>;
+            Assert.NotNull(operationLinks);
+            Assert.Equal(2, operationLinks.Count());
+            Assert.Contains(operationLinks, (l) => l.Href == "operations/plus");
+            Assert.Contains(operationLinks, (l) => l.Href == "operations/minus");
         }
     }
 }

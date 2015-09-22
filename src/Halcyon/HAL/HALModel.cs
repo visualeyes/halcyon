@@ -63,7 +63,14 @@ namespace Halcyon.HAL {
                     resolved = subsituted.Select(l => l.RebaseLink(this.config.LinkBase)).ToList();
                 }
 
-                result = resolved.ToDictionary(l => l.Rel);
+                var grouped = resolved.GroupBy(r => r.Rel);
+
+                var singles = grouped.Where(g => g.Count() <= 1).ToDictionary(k => k.Key, v => v.SingleOrDefault() as object);
+                var lists = grouped.Where(g => g.Count() > 1).ToDictionary(k => k.Key, v => v.AsEnumerable() as object);
+
+                var allLinks = singles.Concat(lists).ToDictionary(k => k.Key, v => v.Value);
+
+                result = allLinks;
                 return true;
             } else if(key == EmbeddedKey) {
                 result = embedded;
