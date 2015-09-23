@@ -18,7 +18,7 @@ namespace Halcyon.HAL {
         public JsonHALMediaTypeFormatter(string[] halJsonMedaiTypes = null, string[] jsonMediaTypes = null)
             : base() {
             if (halJsonMedaiTypes == null) halJsonMedaiTypes = new string[] { HalJsonType };
-            if (jsonMediaTypes == null) halJsonMedaiTypes = new string[] { };
+            if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
 
