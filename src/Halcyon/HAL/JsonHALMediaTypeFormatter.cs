@@ -17,21 +17,18 @@ namespace Halcyon.HAL {
 
         public JsonHALMediaTypeFormatter(string[] halJsonMedaiTypes = null, string[] jsonMediaTypes = null)
             : base() {
-            if (halJsonMedaiTypes == null) {
-                halJsonMedaiTypes = new string[] { HalJsonType };
-            }
+            if (halJsonMedaiTypes == null) halJsonMedaiTypes = new string[] { HalJsonType };
+            if (jsonMediaTypes == null) halJsonMedaiTypes = new string[] { };
+
+            this.jsonMediaTypes = jsonMediaTypes;
 
             foreach (var mediaType in halJsonMedaiTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
 
-            if (jsonMediaTypes != null) {
-                foreach (var mediaType in jsonMediaTypes.Where(t => t != JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
-                    SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
-                }
+            foreach (var mediaType in jsonMediaTypes.Where(t => t != JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
+                SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
-
-            this.jsonMediaTypes = jsonMediaTypes;
         }
 
         public override bool CanReadType(Type type) {
