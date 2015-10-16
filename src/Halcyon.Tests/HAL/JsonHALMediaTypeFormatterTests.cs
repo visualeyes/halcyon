@@ -16,7 +16,7 @@ namespace Halcyon.Tests.HAL {
         [Fact]
         public void Adds_Default_Hal_Type() {
             var formatter = new JsonHALMediaTypeFormatter(
-                halJsonMedaiTypes: null
+                halJsonMediaTypes: null
             );
             
             Assert.NotNull(formatter);
@@ -26,7 +26,7 @@ namespace Halcyon.Tests.HAL {
         [Fact]
         public void Adds_Hal_Types() {
             var formatter = new JsonHALMediaTypeFormatter(
-                halJsonMedaiTypes: new string[] { "application/test" }
+                halJsonMediaTypes: new string[] { "application/test" }
             );
 
             Assert.NotNull(formatter);
