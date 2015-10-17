@@ -15,14 +15,14 @@ namespace Halcyon.HAL {
 
         private readonly string[] jsonMediaTypes;
 
-        public JsonHALMediaTypeFormatter(string[] halJsonMedaiTypes = null, string[] jsonMediaTypes = null)
+        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null)
             : base() {
-            if (halJsonMedaiTypes == null) halJsonMedaiTypes = new string[] { HalJsonType };
+            if (halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
 
-            foreach (var mediaType in halJsonMedaiTypes) {
+            foreach (var mediaType in halJsonMediaTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
             }
 
