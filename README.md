@@ -1,4 +1,4 @@
-# Halcyon
+# Halcyon [![Build Status](https://travis-ci.org/visualeyes/halcyon.svg)](https://travis-ci.org/visualeyes/halcyon.svg)
 A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON or XML.
 
 ## What is HAL?
@@ -150,8 +150,6 @@ Embedded collections will be attached at the root of the JSON Object.
       ]
     }
 
-## TODO
-* Support Arrays of Links [#1](https://github.com/CareerHub/Halcyon/issues/1)
 
 ## Compatability with HALON
 [Halon](https://github.com/LeanKit-Labs/halon) is a HAL Javascript client that adds non-standard properties.
