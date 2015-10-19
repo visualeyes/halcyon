@@ -1,0 +1,8 @@
+language: csharp
+solution: src/Halcyon.sln
+install:
+  - nuget restore src/Halcyon.sln
+  - nuget install xunit.runners -Version 2.0.0 -OutputDirectory testrunner
+  script:
+  - xbuild /p:Configuration=Release src/Halcyon.sln
+  - mono ./testrunner/xunit.runner.console.*/tools/xunit.console.exe ./src/Halcyon.Tests/bin/Release/Halcyon.Tests.dll
