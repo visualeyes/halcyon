@@ -5,7 +5,7 @@
     <version>$version$</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
-    <projectUrl>https://github.com/CareerHub/Halcyon</projectUrl>
+    <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds HAL support to ASP.NET WebAPI</description>
     <releaseNotes>This is the initial release.</releaseNotes>
