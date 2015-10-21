@@ -1,4 +1,4 @@
-# Halcyon [![Build Status](https://travis-ci.org/visualeyes/halcyon.svg)](https://travis-ci.org/visualeyes/halcyon.svg)
+# Halcyon ![Build Status](https://ci.appveyor.com/api/projects/status/github/visualeyes/halcyon?branch=master&svg=true)
 A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON or XML.
 
 ## What is HAL?
