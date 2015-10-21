@@ -19,7 +19,7 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="Halcyon\bin\Release\Halcyon.dll" target="lib" />
-    <file src="Halcyon\bin\Release\Halcyon.pdb" target="lib" />
+    <file src="bin\Release\Halcyon.dll" target="lib" />
+    <file src="bin\Release\Halcyon.pdb" target="lib" />
   </files>
 </package>
