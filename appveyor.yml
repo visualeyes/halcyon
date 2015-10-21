@@ -17,4 +17,4 @@ build:
   project: src\Halcyon.sln      # path to Visual Studio solution or project
 
 test_script:
-  - src/packages/xunit.runner.console.*/tools/xunit.console.exe src/Halcyon.Tests/bin/$(configuration)/Halcyon.Tests.dll /appveyor
+  - '"C:\projects\src\packages\xunit.runner.console.*\tools\xunit.console.exe" "C:\projects\src\Halcyon.Tests\bin\$(configuration)\Halcyon.Tests.dll" /appveyor'
