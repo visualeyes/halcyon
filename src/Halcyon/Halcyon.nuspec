@@ -2,7 +2,6 @@
 <package >
   <metadata>
     <id>Halcyon</id>
-    <version>1.0.0</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
     <projectUrl>https://github.com/CareerHub/Halcyon</projectUrl>
