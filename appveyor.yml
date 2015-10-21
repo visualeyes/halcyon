@@ -16,5 +16,5 @@ build:
   parallel: true                  # enable MSBuild parallel builds
   project: src\Halcyon.sln      # path to Visual Studio solution or project
 
-after_build
+after_build:
   - xunit.console src\Halcyon.Tests\bin\Release\Halcyon.Tests.dll /appveyor
