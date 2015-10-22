@@ -1,4 +1,9 @@
-# Halcyon ![Build Status](https://ci.appveyor.com/api/projects/status/github/visualeyes/halcyon?branch=master&svg=true) [![Coverage Status](https://coveralls.io/repos/visualeyes/halcyon/badge.svg?branch=master&service=github)](https://coveralls.io/github/visualeyes/halcyon?branch=master)
+# Halcyon 
+![Build Status](https://ci.appveyor.com/api/projects/status/github/visualeyes/halcyon?branch=master&svg=true) 
+[![Coverage Status](https://coveralls.io/repos/visualeyes/halcyon/badge.svg?branch=master&service=github)](https://coveralls.io/github/visualeyes/halcyon?branch=master)
+[![Halcyon Nuget Version](https://img.shields.io/nuget/v/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
+[![Halcyon Nuget Downloads](https://img.shields.io/nuget/dt/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
+
 A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON or XML.
 
 ## What is HAL?
