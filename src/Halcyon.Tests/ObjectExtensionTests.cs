@@ -39,5 +39,12 @@ namespace Halcyon.Tests {
             Assert.Equal(expectedComplex, actualComplex);
         }
 
+        [Fact]
+        public void Dictionary_To_Dictionary() {
+            var expected = new Dictionary<string, object>();
+            var actual = expected.ToDictionary();
+            Assert.Same(expected, actual);
+        }
+
     }
 }

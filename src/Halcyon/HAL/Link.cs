@@ -53,33 +53,27 @@ namespace Halcyon.HAL {
         [JsonProperty("hreflang", NullValueHandling = NullValueHandling.Ignore)]
         public string HrefLang { get; set; }
         
-        public Link CreateLink(string newRel, IDictionary<string, object> parameters) {
+        internal Link CreateLink(IDictionary<string, object> parameters) {
             var clone = Clone();
-
-            clone.Rel = newRel;
-            clone.Href = CreateUri(parameters).ToString();
+            
+            if(!String.IsNullOrWhiteSpace(clone.Href) && parameters != null) {
+                clone.Href = clone.Href.SubstituteParams(parameters);
+            }
 
             return clone;
         }
-
-        internal Link CreateLink(IDictionary<string, object> parameters) {
-            return CreateLink(Rel, parameters);
-        }
-
-        internal Uri CreateUri(IDictionary<string, object> parameters) {
-            var href = this.Href.SubstituteParams(parameters);
-            return GetHrefUri(href);
-        }
-
+        
         internal Link RebaseLink(string baseUriString) {
             var clone = Clone();
 
-            var hrefUri = GetHrefUri(clone.Href);
-            if (!hrefUri.IsAbsoluteUri) {
-                var baseUri = new Uri(baseUriString, UriKind.RelativeOrAbsolute);
-                var rebasedUri = new Uri(baseUri, hrefUri);
+            if (!String.IsNullOrWhiteSpace(baseUriString)) {
+                var hrefUri = GetHrefUri(clone.Href);
+                if (!hrefUri.IsAbsoluteUri) {
+                    var baseUri = new Uri(baseUriString, UriKind.RelativeOrAbsolute);
+                    var rebasedUri = new Uri(baseUri, hrefUri);
 
-                clone.Href = rebasedUri.ToString();
+                    clone.Href = rebasedUri.ToString();
+                }
             }
 
             return clone;

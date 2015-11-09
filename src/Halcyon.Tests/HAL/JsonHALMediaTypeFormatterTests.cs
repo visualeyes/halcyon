@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -54,20 +55,28 @@ namespace Halcyon.Tests.HAL {
         }
 
 
-        [Fact]
-        public async Task Write_To_Stream_test() {
+        [Theory]
+        [InlineData("application/json", false, "{\"test\":1}")]
+        [InlineData("application/json", true, "{\"test\":1,\"_links\":{\"self\":{\"href\":\"href\"}}}")]
+        [InlineData("application/hal+json", true, "{\"test\":1,\"_links\":{\"self\":{\"href\":\"href\"}}}")]
+        public async Task Write_To_Stream_test(string contentType, bool forceHal, string expected) {
             using (var stream = new MemoryStream()) {
                 var content = new StringContent("");
+                content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                 var formatter = new JsonHALMediaTypeFormatter();
-                
-                var model = new HALModel(new {
-                    test = 1
-                });
+
+                var model = new { test = 1 };
+                var link = new Link("self", "href");
+
+                var halModel = new HALModel(model, new HALModelConfig {
+                    ForceHAL = forceHal
+                })
+                .AddLinks(link);
 
                 Assert.NotNull(formatter);
 
-                await formatter.WriteToStreamAsync(typeof(HALModel), model, stream, content, null);
+                await formatter.WriteToStreamAsync(typeof(HALModel), halModel, stream, content, null);
 
                 // Reset the position to ensure it can read
                 stream.Position = 0;
@@ -75,7 +84,7 @@ namespace Halcyon.Tests.HAL {
                 var reader = new StreamReader(stream);
                 string result = await reader.ReadToEndAsync();
 
-                Assert.Equal("{\"test\":1}", result);
+                Assert.Equal(expected, result);
             }
         }
     }
