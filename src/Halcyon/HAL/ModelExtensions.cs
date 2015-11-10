@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 namespace Halcyon.HAL {
     public static class ModelExtensions {
 
-        public static HALModel AddLinks(this HALModel halModel, params Link[] links) {
+        public static HALResponse AddLinks(this HALResponse halModel, params Link[] links) {
             return halModel.AddLinks(links);
         }
 
-        public static HALModel AddEmbeddedCollection<T>(this HALModel hyperMedia, string collectionName, IEnumerable<T> model, IEnumerable<Link> links = null) {
+        public static HALResponse AddEmbeddedCollection<T>(this HALResponse hyperMedia, string collectionName, IEnumerable<T> model, IEnumerable<Link> links = null) {
             if(links == null) {
                 links = Enumerable.Empty<Link>();
             }
 
             var embedded = model
-                            .Select(m => new HALModel(m, hyperMedia.Config).AddLinks(links))
+                            .Select(m => new HALResponse(m, hyperMedia.Config).AddLinks(links))
                             .ToArray();
 
             hyperMedia.AddEmbeddedCollection(collectionName, embedded);

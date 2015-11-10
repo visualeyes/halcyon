@@ -83,8 +83,8 @@
     <Compile Include="HAL\ControllerExtensionsTests.cs" />
     <Compile Include="HAL\HALModelConfigTests.cs" />
     <Compile Include="HAL\HALModelExtensionTests.cs" />
-    <Compile Include="HAL\HALModelTests.cs" />
-    <Compile Include="HAL\JsonHALMediaTypeFormatterTests.cs" />
+    <Compile Include="HAL\HALResponseTests.cs" />
+    <Compile Include="HAL\Json\JsonHALMediaTypeFormatterTests.cs" />
     <Compile Include="HAL\LinkTests.cs" />
     <Compile Include="ObjectExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

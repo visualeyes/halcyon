@@ -58,10 +58,11 @@
   <ItemGroup>
     <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HAL\HALModel.cs" />
+    <Compile Include="HAL\HALResponse.cs" />
     <Compile Include="HAL\HALModelConfig.cs" />
     <Compile Include="HAL\IHALModelConfig.cs" />
-    <Compile Include="HAL\JsonHALMediaTypeFormatter.cs" />
+    <Compile Include="HAL\Json\JsonHALMediaTypeFormatter.cs" />
+    <Compile Include="HAL\Json\JsonHALModelConverter.cs" />
     <Compile Include="HAL\Link.cs" />
     <Compile Include="HAL\ModelExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />

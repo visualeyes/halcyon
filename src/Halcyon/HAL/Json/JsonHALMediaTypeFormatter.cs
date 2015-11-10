@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Halcyon.HAL {
+namespace Halcyon.HAL.Json {
     public class JsonHALMediaTypeFormatter : JsonMediaTypeFormatter {
         private const string HalJsonType = "application/hal+json";
 
@@ -36,7 +36,7 @@ namespace Halcyon.HAL {
         }
 
         public override bool CanWriteType(Type type) {
-            return type == typeof(HALModel) || base.CanWriteType(type);
+            return type == typeof(HALResponse) || base.CanWriteType(type);
         }
 
         public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger) {
@@ -46,15 +46,18 @@ namespace Halcyon.HAL {
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext) {
             
             // If it is a HAL response but set to application/json - convert to a plain response
-            if(type == typeof(HALModel) && value != null) {
-                var halResponse = ((HALModel)value);
+            if(type == typeof(HALResponse) && value != null) {
+                var halResponse = ((HALResponse)value);
+                var serializer = this.CreateJsonSerializer();
 
                 string mediaType = content.Headers.ContentType.MediaType;
                 if (!halResponse.Config.ForceHAL && (jsonMediaTypes.Contains(mediaType) || mediaType == JsonMediaTypeFormatter.DefaultMediaType.MediaType)) {
-                    value = halResponse.ToPlainResponse();
+                    value = halResponse.ToPlainResponse(serializer);
+                } else {
+                    value = halResponse.ToJObject(serializer);
                 }
             }
-
+            
             return base.WriteToStreamAsync(type, value, writeStream, content, transportContext);
         }
     }

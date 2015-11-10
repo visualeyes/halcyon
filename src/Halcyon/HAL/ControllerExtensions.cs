@@ -16,18 +16,18 @@ namespace Halcyon.HAL {
         public static IHttpActionResult HAL(this ApiController controller, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
-            var hyperMedia = new HALModel(new HALModelConfig {
+            var hyperMedia = new HALResponse(new HALModelConfig {
                 ForceHAL = true, // If we're only returning links, always return them
                 LinkBase = linkBase
             });
 
             hyperMedia.AddLinks(links);
 
-            return new NegotiatedContentResult<HALModel>(statuscode, hyperMedia, controller);
+            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
         }
 
-        public static IHttpActionResult HAL(this ApiController controller, HALModel hyperMedia, HttpStatusCode statuscode = HttpStatusCode.OK) {
-            return new NegotiatedContentResult<HALModel>(statuscode, hyperMedia, controller);
+        public static IHttpActionResult HAL(this ApiController controller, HALResponse hyperMedia, HttpStatusCode statuscode = HttpStatusCode.OK) {
+            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
         }
 
         public static IHttpActionResult HAL<T>(this ApiController controller, T model, Link link, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
@@ -41,12 +41,12 @@ namespace Halcyon.HAL {
 
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
-            var hyperMedia = new HALModel(model, new HALModelConfig {
+            var hyperMedia = new HALResponse(model, new HALModelConfig {
                 LinkBase = linkBase
             })
             .AddLinks(links);
 
-            return new NegotiatedContentResult<HALModel>(statuscode, hyperMedia, controller);
+            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
         }
 
         public static IHttpActionResult HAL<T, E>(this ApiController controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
@@ -60,7 +60,7 @@ namespace Halcyon.HAL {
         public static IHttpActionResult HAL<T, E>(this ApiController controller, T model, IEnumerable<Link> modelLinks, string embeddedName, IEnumerable<E> embeddedModel, IEnumerable<Link> embeddedLinks, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
-            var hyperMedia = new HALModel(model, new HALModelConfig {
+            var hyperMedia = new HALResponse(model, new HALModelConfig {
                 LinkBase = linkBase
             });
 
@@ -68,7 +68,7 @@ namespace Halcyon.HAL {
                 .AddLinks(modelLinks)
                 .AddEmbeddedCollection(embeddedName, embeddedModel, embeddedLinks);
 
-            return new NegotiatedContentResult<HALModel>(statuscode, hyperMedia, controller);
+            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
         }
         
                 
