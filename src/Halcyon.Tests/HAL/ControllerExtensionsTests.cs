@@ -41,7 +41,7 @@ namespace Halcyon.Tests.HAL {
                 new Link("self", "/api/foo")
             };
 
-            var result = this.controller.HAL(links, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALModel>;
+            var result = this.controller.HAL(links, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, true, result);
         }
@@ -60,7 +60,7 @@ namespace Halcyon.Tests.HAL {
                 new Link("self", "/api/foo")
             };
 
-            var result = this.controller.HAL(testModel, links, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALModel>;
+            var result = this.controller.HAL(testModel, links, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, false, result);
         }
@@ -77,7 +77,7 @@ namespace Halcyon.Tests.HAL {
 
             var link = new Link("self", "/api/foo");
 
-            var result = this.controller.HAL(testModel, link, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALModel>;
+            var result = this.controller.HAL(testModel, link, relativeLinkBase: linkBase, statuscode: statusCode) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, false, result);
         }
@@ -90,12 +90,12 @@ namespace Halcyon.Tests.HAL {
         public void Hal_Model(HttpStatusCode statusCode, bool forceHal, string linkBase) {
             
         
-            var halModel = new HALModel(new HALModelConfig {
+            var halModel = new HALResponse(new HALModelConfig {
                 ForceHAL = forceHal,
                 LinkBase = linkBase
             });
             
-            var result = this.controller.HAL(halModel, statuscode: statusCode) as NegotiatedContentResult<HALModel>;
+            var result = this.controller.HAL(halModel, statuscode: statusCode) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, linkBase, forceHal, result);
         }
@@ -128,7 +128,7 @@ namespace Halcyon.Tests.HAL {
                 embeddedLink,
                 relativeLinkBase: linkBase,
                 statuscode: statusCode
-            ) as NegotiatedContentResult<HALModel>;
+            ) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, false, result);
 
@@ -165,7 +165,7 @@ namespace Halcyon.Tests.HAL {
                 embeddedLinks,
                 relativeLinkBase: linkBase,
                 statuscode: statusCode
-            ) as NegotiatedContentResult<HALModel>;
+            ) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, false, result);
 
@@ -204,14 +204,14 @@ namespace Halcyon.Tests.HAL {
                 embeddedLinks,
                 relativeLinkBase: linkBase, 
                 statuscode: statusCode
-            ) as NegotiatedContentResult<HALModel>;
+            ) as NegotiatedContentResult<HALResponse>;
 
             AssertHalModelResult(statusCode, expectedLinkBase, false, result);
             
             var model = result.Content;
         }
 
-        private static void AssertHalModelResult(HttpStatusCode statusCode, string expectedLinkBase, bool forceHal, NegotiatedContentResult<HALModel> result) {
+        private static void AssertHalModelResult(HttpStatusCode statusCode, string expectedLinkBase, bool forceHal, NegotiatedContentResult<HALResponse> result) {
             Assert.NotNull(result);
             Assert.Equal(statusCode, result.StatusCode);
 

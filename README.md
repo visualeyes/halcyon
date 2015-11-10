@@ -4,7 +4,7 @@
 [![Halcyon Nuget Version](https://img.shields.io/nuget/v/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
 [![Halcyon Nuget Downloads](https://img.shields.io/nuget/dt/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
 
-A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON or XML.
+A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON.
 
 ## What is HAL?
 > HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
