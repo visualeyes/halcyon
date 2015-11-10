@@ -23,11 +23,11 @@ namespace Halcyon.HAL {
 
             hyperMedia.AddLinks(links);
 
-            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
+            return hyperMedia.ToActionResult(controller, statuscode);
         }
 
         public static IHttpActionResult HAL(this ApiController controller, HALResponse hyperMedia, HttpStatusCode statuscode = HttpStatusCode.OK) {
-            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
+            return hyperMedia.ToActionResult(controller, statuscode);
         }
 
         public static IHttpActionResult HAL<T>(this ApiController controller, T model, Link link, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
@@ -68,7 +68,7 @@ namespace Halcyon.HAL {
                 .AddLinks(modelLinks)
                 .AddEmbeddedCollection(embeddedName, embeddedModel, embeddedLinks);
 
-            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
+            return hyperMedia.ToActionResult(controller, statuscode);
         }
         
                 

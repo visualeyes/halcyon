@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Halcyon.Tests.HAL {
+namespace Halcyon.Tests.HAL.Json {
     public class JsonHALMediaTypeFormatterTests {
 
         [Fact]
@@ -55,57 +55,41 @@ namespace Halcyon.Tests.HAL {
             Assert.Contains("application/test", formatter.SupportedMediaTypes.Select(m => m.MediaType));
         }
 
+        private const string TestHalProperties = "\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
+        private const string TestPlainEmbeddedProperties = "\"bars\":[{\"bar\":true}]";
+        private const string TestFooModelProperties = "\"foo\":1";
 
         [Theory]
-        [InlineData("application/json", false, "{\"foo\":1,\"bars\":[{\"bar\":true}]}")]
-        [InlineData("application/json", true, "{\"foo\":1,\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}}")]
-        [InlineData("application/hal+json", true, "{\"foo\":1,\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}}")]
+        [InlineData("application/json", false, "{" + TestFooModelProperties + "," + TestPlainEmbeddedProperties + "}")]
+        [InlineData("application/json", true, "{" + TestFooModelProperties + "," + TestHalProperties + "}")]
+        [InlineData("application/hal+json", false, "{" + TestFooModelProperties + "," + TestHalProperties + "}")]
         public async Task Write_To_Stream_Test(string contentType, bool forceHal, string expected) {
-            using (var stream = new MemoryStream()) {
-                var content = new StringContent("");
-                content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-
-                var formatter = new JsonHALMediaTypeFormatter();
-                
-                var model = new { foo = 1 };
-                var link = new Link("self", "href");
-                var embedded = new[] {
-                    new { bar = true }
-                };
-
-                var halModel = new HALResponse(model, new HALModelConfig {
-                    ForceHAL = forceHal
-                })
-                .AddLinks(link)
-                .AddEmbeddedCollection("bars", embedded);
-
-                Assert.NotNull(formatter);
-
-                await formatter.WriteToStreamAsync(typeof(HALResponse), halModel, stream, content, null);
-
-                // Reset the position to ensure it can read
-                stream.Position = 0;
-
-                var reader = new StreamReader(stream);
-                string result = await reader.ReadToEndAsync();
-
-                Assert.Equal(expected, result);
-            }
+            var model = new { foo = 1 };
+            await AssertModelJson(model, contentType, forceHal, expected);
         }
 
+        private const string TestJsonModelProperties = "\"ID\":1,\"FirstName\":\"fname\",\"LastName\":\"lname\",\"display_name\":\"fname lname\"";
 
         [Theory]
-        [InlineData("application/json", false, "{\"foo\":1,\"bars\":[{\"bar\":true}]}")]
-        [InlineData("application/json", true, "{\"foo\":1,\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}}")]
-        [InlineData("application/hal+json", true, "{\"foo\":1,\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}}")]
+        [InlineData("application/json", false, "{" + TestJsonModelProperties + "," + TestPlainEmbeddedProperties + "}")]
+        [InlineData("application/json", true, "{" + TestJsonModelProperties + "," + TestHalProperties + "}")]
+        [InlineData("application/hal+json", false, "{" + TestJsonModelProperties + "," + TestHalProperties + "}")]
         public async Task Write_To_Stream_Supports_Json_Attributes(string contentType, bool forceHal, string expected) {
+            var model = new JsonModel() {
+                ID = 1,
+                FirstName = "fname",
+                LastName = "lname"
+            };
+            await AssertModelJson(model, contentType, forceHal, expected);
+        }
+
+        private async Task AssertModelJson(object model, string contentType, bool forceHal, string expected) {
             using (var stream = new MemoryStream()) {
                 var content = new StringContent("");
                 content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
                 var formatter = new JsonHALMediaTypeFormatter();
 
-                var model = new { foo = 1 };
                 var link = new Link("self", "href");
                 var embedded = new[] {
                     new { bar = true }
