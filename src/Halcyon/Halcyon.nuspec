@@ -2,10 +2,10 @@
 <package >
   <metadata>
     <id>Halcyon</id>
-    <version>1.0.0</version>
+    <version>$version$</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
-    <projectUrl>https://github.com/CareerHub/Halcyon</projectUrl>
+    <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds HAL support to ASP.NET WebAPI</description>
     <releaseNotes>This is the initial release.</releaseNotes>
@@ -19,7 +19,7 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="Halcyon\bin\Release\Halcyon.dll" target="lib" />
-    <file src="Halcyon\bin\Release\Halcyon.pdb" target="lib" />
+    <file src="bin\Release\Halcyon.dll" target="lib" />
+    <file src="bin\Release\Halcyon.pdb" target="lib" />
   </files>
 </package>

@@ -6,7 +6,7 @@ branches:
 
 environment:
     COVERALLS_REPO_TOKEN:  
-       secure: lvJHVKqQc4755lTAomTHAZTlzcVC2RBDbmXwI8ZiumSp8DrEaX2f4wZVlJqShoxZ
+       secure: 8JYxwCWszeAaWBr41pD17LB925K7Sk7utvKsIb1qz44i2anf9uLmvh2q0ilMQTBO
 
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
@@ -16,9 +16,18 @@ before_build:
 
 configuration: Release
 
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
 build:
   verbosity: minimal
   project: src\Halcyon.sln
+  publish_nuget: true             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
 
 after_test: 
     - src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[Halcyon*]* -[Halcyon.Tests]*" -target:"src\packages\xunit.runner.console.2.0.0\tools\xunit.console.exe" -targetargs:"src\Halcyon.Tests\bin\Release\Halcyon.Tests.dll -appveyor -noshadow" -output:coverage.xml
@@ -27,7 +36,7 @@ after_test:
 deploy:
   provider: NuGet
   api_key:
-    secure: GdM05xq6tV+JANZYrC+XzmEmWyunmu3vUQvb6HYcdE+F2Mpg+2pSvaQEz0X0Jhfu
+    secure: +AIEY0E9rURDXqzW7YM/RoRXDhOxdTZQ4XyUxNCKR6zaHvj7ha/uZHnhqofdaUu3
   skip_symbols: false
   artifact: /.*\.nupkg/
   on:
