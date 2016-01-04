@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Halcyon.Tests.HAL.Json {
-    public class JsonModel {
+namespace Halcyon.Tests.HAL.Models {
+    public class PersonModel {
+        public const string TestModelJson = "\"ID\":1,\"FirstName\":\"fname\",\"LastName\":\"lname\",\"display_name\":\"fname lname\"";
 
         public int ID { get; set; }
 
@@ -21,6 +22,14 @@ namespace Halcyon.Tests.HAL.Json {
         [JsonIgnore]
         public string SpecialID {
             get { return this.DisplayName + "(" + this.ID + ")"; }
+        }
+
+        public static PersonModel GetTestModel() {
+            return new PersonModel() {
+                ID = 1,
+                FirstName = "fname",
+                LastName = "lname"
+            };
         }
     }
 }

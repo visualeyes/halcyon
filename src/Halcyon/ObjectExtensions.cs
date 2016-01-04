@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -10,10 +11,21 @@ namespace Halcyon {
 
             if (obj is IDictionary<string, object>) {
                 vardic = (IDictionary<string, object>)obj;
+            } else if (obj is JObject) {
+                var jObj = ((JObject)obj);
+                vardic = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+                var properties = jObj.Properties();
+
+                foreach (var prop in properties) {
+                    var objValue = prop.Value;
+
+                    vardic.Add(prop.Name, objValue);
+                }
             } else {
                 vardic = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
-                PropertyInfo[] properties = obj.GetType().GetProperties();
+                var properties = obj.GetType().GetProperties();
 
                 foreach (var prop in properties) {
                     var objValue = prop.GetValue(obj, null);

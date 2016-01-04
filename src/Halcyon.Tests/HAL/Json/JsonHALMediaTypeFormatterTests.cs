@@ -1,5 +1,6 @@
 ﻿using Halcyon.HAL;
 using Halcyon.HAL.Json;
+using Halcyon.Tests.HAL.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,18 +69,13 @@ namespace Halcyon.Tests.HAL.Json {
             await AssertModelJson(model, contentType, forceHal, expected);
         }
 
-        private const string TestJsonModelProperties = "\"ID\":1,\"FirstName\":\"fname\",\"LastName\":\"lname\",\"display_name\":\"fname lname\"";
 
         [Theory]
-        [InlineData("application/json", false, "{" + TestJsonModelProperties + "," + TestPlainEmbeddedProperties + "}")]
-        [InlineData("application/json", true, "{" + TestJsonModelProperties + "," + TestHalProperties + "}")]
-        [InlineData("application/hal+json", false, "{" + TestJsonModelProperties + "," + TestHalProperties + "}")]
+        [InlineData("application/json", false, "{" + PersonModel.TestModelJson + "," + TestPlainEmbeddedProperties + "}")]
+        [InlineData("application/json", true, "{" + PersonModel.TestModelJson + "," + TestHalProperties + "}")]
+        [InlineData("application/hal+json", false, "{" + PersonModel.TestModelJson + "," + TestHalProperties + "}")]
         public async Task Write_To_Stream_Supports_Json_Attributes(string contentType, bool forceHal, string expected) {
-            var model = new JsonModel() {
-                ID = 1,
-                FirstName = "fname",
-                LastName = "lname"
-            };
+            var model = PersonModel.GetTestModel();
             await AssertModelJson(model, contentType, forceHal, expected);
         }
 
