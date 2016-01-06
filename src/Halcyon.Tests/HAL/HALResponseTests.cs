@@ -13,6 +13,15 @@ namespace Halcyon.Tests.HAL {
     public class HALResponseTests {
         private const string TestHalProperties = "\"_links\":{\"self\":{\"href\":\"href\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
 
+
+        [Theory]
+        [MemberData("GetCollectionModels")]
+        public void Hal_Model_Doesnt_Accept_Collections(object dto) {
+            Assert.Throws<ArgumentException>("model", () => {
+                new HALResponse(dto);
+            });
+        }
+
         [Theory]
         [MemberData("GetTestModels")]
         public void To_JObject(object model, Link link, string embeddedName, object[] embedded, string expected) {
@@ -40,7 +49,14 @@ namespace Halcyon.Tests.HAL {
 
             return new object[] {
                 new object[] { personModel, link, embeddedName, embedded, expectedPersonJson },
-                new object[] { JObject.FromObject(personModel), link, embeddedName, embedded, expectedPersonJson }
+                new object[] { JObject.FromObject(personModel), link, embeddedName, embedded, expectedPersonJson },
+            };
+        }
+
+        public static object[] GetCollectionModels() {
+            return new object[] {
+                new object[] { new int[0] },
+                new object[] { Enumerable.Empty<int>() },
             };
         }
     }

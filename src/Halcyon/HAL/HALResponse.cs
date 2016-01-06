@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -26,11 +27,14 @@ namespace Halcyon.HAL {
 
         public HALResponse(object model, IHALModelConfig config = null)
             : this(config) {
+            if (model is IEnumerable) {
+                throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
+            }
+
             this.dto = model;
         }
 
-        public IHALModelConfig Config
-        {
+        public IHALModelConfig Config {
             get { return config; }
         }
 
