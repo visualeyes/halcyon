@@ -6,8 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Web;
 
 namespace Halcyon.HAL {
     [JsonConverter(typeof(JsonHALModelConverter))]

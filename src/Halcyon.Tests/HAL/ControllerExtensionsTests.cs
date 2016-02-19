@@ -1,4 +1,5 @@
 ﻿using Halcyon.HAL;
+using Halcyon.Web.HAL;
 using Moq;
 using System;
 using System.Collections.Generic;

@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Halcyon.HAL.Json {
     public class JsonHALMediaTypeFormatter : JsonMediaTypeFormatter {
