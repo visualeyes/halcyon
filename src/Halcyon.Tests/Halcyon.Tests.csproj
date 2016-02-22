@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Halcyon.Tests</RootNamespace>
     <AssemblyName>Halcyon.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Halcyon.WebApi\Halcyon.WebApi.csproj">
+      <Project>{51141f80-555a-416d-9596-517b81d1bbc3}</Project>
+      <Name>Halcyon.WebApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Halcyon\Halcyon.csproj">
       <Project>{6d43348b-bb99-4431-bf49-f5c277eb2069}</Project>
       <Name>Halcyon</Name>

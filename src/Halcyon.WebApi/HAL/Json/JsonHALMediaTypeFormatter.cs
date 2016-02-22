@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Halcyon.HAL;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace Halcyon.HAL.Json {
+namespace Halcyon.WebApi.HAL.Json {
     public class JsonHALMediaTypeFormatter : JsonMediaTypeFormatter {
         private const string HalJsonType = "application/hal+json";
 

@@ -6,8 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Web;
 
 namespace Halcyon.HAL {
     [JsonConverter(typeof(JsonHALModelConverter))]
@@ -27,7 +25,7 @@ namespace Halcyon.HAL {
 
         public HALResponse(object model, IHALModelConfig config = null)
             : this(config) {
-            if (model is IEnumerable) {
+            if (!(model is JObject) && (model is IEnumerable)) {
                 throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
             }
 

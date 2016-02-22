@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Halcyon.HAL;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,8 +11,8 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Http.Routing;
 
-namespace Halcyon.HAL {
-    public static class ControllerExtensions {
+namespace Halcyon.WebApi.HAL {
+    public static class ApiControllerExtensions {
 
         public static IHttpActionResult HAL(this ApiController controller, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);

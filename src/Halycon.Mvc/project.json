@@ -1,0 +1,18 @@
+﻿{
+    "version": "1.0.0-*",
+    "description": "Halycon.ASPNETCore Class Library",
+    "authors": [ "John" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+
+    "dependencies": {
+        "Halcyon": "1.0.32",
+        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+        "Newtonsoft.Json": "6.0.4"
+    },
+
+    "frameworks": {
+        "net451": { }
+    }
+}

@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Halcyon</id>
-    <version>$version$</version>
+    <id>Halcyon.Mvc</id>
+    <version>$version$-alpha</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
     <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>HAL Models for producing HAL Json</description>
-    <releaseNotes></releaseNotes>
+    <description>Adds HAL support to ASP.NET Core</description>
+    <releaseNotes>This is the initial release.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Hypermedia ASP.NET HAL JSON WebApi</tags>
     <dependencies>
-      <dependency id="Tavis.UriTemplates" version="0.6.4" />
+      <dependency id="Halcyon" version="1.0.0" />
     </dependencies>
     <frameworkAssemblies>
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\Release\Halcyon.dll" target="lib" />
-    <file src="bin\Release\Halcyon.pdb" target="lib" />
+    <file src="bin\Release\Halcyon.Mvc.dll" target="lib" />
+    <file src="bin\Release\Halcyon.Mvc.pdb" target="lib" />
   </files>
 </package>

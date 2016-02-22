@@ -1,6 +1,7 @@
 ﻿using Halcyon.HAL;
 using Halcyon.HAL.Json;
 using Halcyon.Tests.HAL.Models;
+using Halcyon.WebApi.HAL.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
