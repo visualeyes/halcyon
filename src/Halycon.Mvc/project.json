@@ -9,7 +9,7 @@
     "dependencies": {
         "Halcyon": "1.0.32",
         "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-        "Newtonsoft.Json": "7.0.1"
+        "Newtonsoft.Json": "6.0.4"
     },
 
     "frameworks": {
