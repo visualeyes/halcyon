@@ -1,26 +1,25 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Halcyon.Web</id>
+    <id>Halcyon.WebApi</id>
     <version>$version$</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
     <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds HAL support to ASP.NET WebAPI</description>
-    <releaseNotes>This is the initial release.</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Hypermedia ASP.NET HAL JSON WebApi</tags>
     <dependencies>
       <dependency id="Halcyon" version="1.0.0" />
-      <dependency id="Tavis.UriTemplates" version="0.6.4" />
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
     </dependencies>
     <frameworkAssemblies>
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\Release\Halcyon.Web.dll" target="lib" />
-    <file src="bin\Release\Halcyon.Web.pdb" target="lib" />
+    <file src="bin\Release\Halcyon.WebApi.dll" target="lib" />
+    <file src="bin\Release\Halcyon.WebApi.pdb" target="lib" />
   </files>
 </package>

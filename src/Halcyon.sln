@@ -17,7 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4E1AB3BE
 		..\appveyor.yml = ..\appveyor.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.Web", "Halcyon.Web\Halcyon.Web.csproj", "{51141F80-555A-416D-9596-517B81D1BBC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.WebApi", "Halcyon.WebApi\Halcyon.WebApi.csproj", "{51141F80-555A-416D-9596-517B81D1BBC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7CAE2965-EABD-493F-8DF4-BF2EAE886FF5}"
+	ProjectSection(SolutionItems) = preProject
+		Halycon.ASPNETCore\global.json = Halycon.ASPNETCore\global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +42,10 @@ Global
 		{51141F80-555A-416D-9596-517B81D1BBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51141F80-555A-416D-9596-517B81D1BBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51141F80-555A-416D-9596-517B81D1BBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61301A50-41DB-43E0-AA67-867AB52B0CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61301A50-41DB-43E0-AA67-867AB52B0CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61301A50-41DB-43E0-AA67-867AB52B0CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61301A50-41DB-43E0-AA67-867AB52B0CA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

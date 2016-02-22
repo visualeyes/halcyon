@@ -7,8 +7,8 @@
     <owners>CareerHub</owners>
     <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Adds HAL support to ASP.NET WebAPI</description>
-    <releaseNotes>This is the initial release.</releaseNotes>
+    <description>HAL Models for producing HAL Json</description>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Hypermedia ASP.NET HAL JSON WebApi</tags>
     <dependencies>

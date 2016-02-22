@@ -1,8 +1,13 @@
 # Halcyon 
 ![Build Status](https://ci.appveyor.com/api/projects/status/github/visualeyes/halcyon?branch=master&svg=true) 
 [![Coverage Status](https://coveralls.io/repos/visualeyes/halcyon/badge.svg?branch=master&service=github)](https://coveralls.io/github/visualeyes/halcyon?branch=master)
-[![Halcyon Nuget Version](https://img.shields.io/nuget/v/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
-[![Halcyon Nuget Downloads](https://img.shields.io/nuget/dt/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
+
+**Halcyon** - [![Halcyon Nuget Version](https://img.shields.io/nuget/v/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/) [![Halcyon Nuget Downloads](https://img.shields.io/nuget/dt/Halcyon.svg)](https://www.nuget.org/packages/Halcyon/)
+
+**Halcyon.WebApi** - [![Halcyon.WebApi Nuget Version](https://img.shields.io/nuget/v/Halcyon.WebApi.svg)](https://www.nuget.org/packages/Halcyon.WebApi/) [![Halcyon.WebApi Nuget Downloads](https://img.shields.io/nuget/dt/Halcyon.WebApi.svg)](https://www.nuget.org/packages/Halcyon.WebApi/)
+
+**Halycon.Mvc** *(ASP.NET Core)* - **TODO**
+
 
 A HAL implementation for ASP.NET. Halcyon builds a HAL Model and lets ASP.NET take care of formatting the model into JSON.
 
@@ -13,7 +18,7 @@ For more information please see [the guide](https://github.com/mikekelly/hal_spe
 
 ## Getting Started with Halcyon
 Halcyon is simple to drop into an exising project as it does not require changes to existing models.
-To start returing HAL from you API you simply need to call the HAL method in your ApiController.
+To start returing HAL from you API you simply need to call the HAL method in your Controller.
 
     return HAL(model, new Link[] {
         new Link("self", "/api/foo/{id}"),
@@ -24,13 +29,13 @@ To start returing HAL from you API you simply need to call the HAL method in you
 Links add discoverability by directing consumers to other Resources in the API.
 The self link is a special link that references the current resource.
 
-#### ApiController 
+#### Controller 
 
     [RoutePrefix("api/foo")]
-    public class FooController : ApiController {
+    public class FooController : Controller {
     
         [HttpGet, Route("{id:int}")]
-        public IHttpActionResult Get(int id) {
+        public IActionResult Get(int id) {
             // Any plain old object will do
             var fooModel = new {
                 id = id,
@@ -45,7 +50,7 @@ The self link is a special link that references the current resource.
         }
     
         [HttpGet, Route("{fooId:int}/bars")]
-        public IHttpActionResult GetBar(int fooId) {
+        public IActionResult GetBar(int fooId) {
             // A collection of bars related to foo
             var bars = new List<object> {
                 new { id = 1, fooId = fooId, type = "bar" },

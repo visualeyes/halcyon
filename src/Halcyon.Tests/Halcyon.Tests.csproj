@@ -95,9 +95,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Halcyon.Web\Halcyon.Web.csproj">
+    <ProjectReference Include="..\Halcyon.WebApi\Halcyon.WebApi.csproj">
       <Project>{51141f80-555a-416d-9596-517b81d1bbc3}</Project>
-      <Name>Halcyon.Web</Name>
+      <Name>Halcyon.WebApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Halcyon\Halcyon.csproj">
       <Project>{6d43348b-bb99-4431-bf49-f5c277eb2069}</Project>
