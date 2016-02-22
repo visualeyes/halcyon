@@ -1,13 +1,15 @@
 ﻿{
-    "version": "1.0.0-*",
-    "description": "Halycon.ASPNETCore Class Library",
-    "authors": [ "John" ],
-    "tags": [ "" ],
-    "projectUrl": "",
+    "version": "1.1.0-alpha",
+    "description": "Adds HAL support to ASP.NET Core",
+    "authors": [ "CareerHub" ],
+    "owners": [ "CareerHub" ],
+    "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
+    "projectUrl": "https://github.com/visualeyes/halcyon",
+    "requireLicenseAcceptance": false,
     "licenseUrl": "",
-
+    "copyright": "Copyright 2016",
     "dependencies": {
-        "Halcyon": "1.1.43-pre",
+        "Halcyon": "1.1.44-alpha",
         "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
         "Newtonsoft.Json": "6.0.4"
     },
