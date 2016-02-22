@@ -25,7 +25,7 @@ namespace Halcyon.HAL {
 
         public HALResponse(object model, IHALModelConfig config = null)
             : this(config) {
-            if (model is IEnumerable) {
+            if (!(model is JObject) && (model is IEnumerable)) {
                 throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
             }
 
