@@ -16,8 +16,8 @@ namespace Halcyon.Web.HAL {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var hyperMedia = new HALResponse(new HALModelConfig {
-                //ForceHAL = true, // If we're only returning links, always return them
-                //LinkBase = linkBase
+                ForceHAL = true, // If we're only returning links, always return them
+                LinkBase = linkBase
             });
 
             hyperMedia.AddLinks(links);
@@ -41,7 +41,7 @@ namespace Halcyon.Web.HAL {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var hyperMedia = new HALResponse(model, new HALModelConfig {
-                //LinkBase = linkBase
+                LinkBase = linkBase
             })
             .AddLinks(links);
 
@@ -60,7 +60,7 @@ namespace Halcyon.Web.HAL {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var hyperMedia = new HALResponse(model, new HALModelConfig {
-                //LinkBase = linkBase
+                LinkBase = linkBase
             });
 
             hyperMedia

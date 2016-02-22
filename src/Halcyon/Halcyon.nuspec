@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Halcyon</id>
-    <version>$version$</version>
+    <version>$version$-alpha</version>
     <authors>CareerHub</authors>
     <owners>CareerHub</owners>
     <projectUrl>https://github.com/visualeyes/halcyon</projectUrl>
