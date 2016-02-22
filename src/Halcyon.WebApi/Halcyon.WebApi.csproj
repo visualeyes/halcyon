@@ -7,8 +7,8 @@
     <ProjectGuid>{51141F80-555A-416D-9596-517B81D1BBC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Halcyon.Web</RootNamespace>
-    <AssemblyName>Halcyon.Web</AssemblyName>
+    <RootNamespace>Halcyon.WebApi</RootNamespace>
+    <AssemblyName>Halcyon.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -55,10 +55,11 @@
   <ItemGroup>
     <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="HAL\HALResponseExtensions.cs" />
+    <Compile Include="HAL\Json\JsonHALMediaTypeFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Halcyon.Web.nuspec">
+    <None Include="Halcyon.WebApi.nuspec">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

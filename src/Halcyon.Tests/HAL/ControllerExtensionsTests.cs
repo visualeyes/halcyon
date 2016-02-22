@@ -1,5 +1,5 @@
 ﻿using Halcyon.HAL;
-using Halcyon.Web.HAL;
+using Halcyon.WebApi.HAL;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -13,22 +13,22 @@ using System.Web.Http.Routing;
 using Xunit;
 
 namespace Halcyon.Tests.HAL {
-    public class ControllerExtensionsTests {
+    public class ApiControllerExtensionsTests {
         private readonly ApiController controller;
-        private readonly Mock<ApiController> mockController;
+        private readonly Mock<ApiController> mockApiController;
         private readonly Mock<UrlHelper> mockUrl;
 
         private const string TestUrlBase = "http://localhost/";
 
-        public ControllerExtensionsTests() {
-            this.mockController = new Mock<ApiController>();
+        public ApiControllerExtensionsTests() {
+            this.mockApiController = new Mock<ApiController>();
             this.mockUrl = new Mock<UrlHelper>();
                         
             this.mockUrl.Setup(u => u.Content(It.IsAny<string>())).Returns<string>((url) => {
                 return url.Replace("~/", TestUrlBase);
             });
 
-            this.controller = this.mockController.Object;
+            this.controller = this.mockApiController.Object;
             this.controller.Url = this.mockUrl.Object;
         }
 

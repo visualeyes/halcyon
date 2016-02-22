@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 
-namespace Halcyon.Web.HAL {
+namespace Halcyon.WebApi.HAL {
     public static class HALResponseExtensions {
 
         public static IHttpActionResult ToActionResult(this HALResponse model, ApiController controller, HttpStatusCode statusCode = HttpStatusCode.OK) {
