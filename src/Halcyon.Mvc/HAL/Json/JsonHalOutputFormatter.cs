@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Halycon.Web.HAL.Json {
+namespace Halcyon.Web.HAL.Json {
     public class JsonHalOutputFormatter : IOutputFormatter {
         public const string HalJsonType = "application/hal+json";
 
