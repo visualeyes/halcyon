@@ -73,8 +73,13 @@ namespace Halcyon.HAL {
                 var resolvedLinks = GetResolvedLinks(this.links, dtoProps, this.config.LinkBase);
 
                 foreach (var link in resolvedLinks) {
-                    var linksOuput = JObject.FromObject(link.Value);
-                    linksOutput.Add(link.Key, linksOuput);
+                    if (link.Value is IEnumerable) {
+                        var linksOuput = JArray.FromObject(link.Value);
+                        linksOutput.Add(link.Key, linksOuput);
+                    } else {
+                        var linkOuput = JObject.FromObject(link.Value);
+                        linksOutput.Add(link.Key, linkOuput);
+                    }
                 }
 
                 output.Add(LinksKey, linksOutput);
