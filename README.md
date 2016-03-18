@@ -150,11 +150,11 @@ public class FooController : Controller {
           "href": "/api/foo/2"
         }
       },
-      "id": 2
+      "id": 2,
       "fooId": 1, 
       "type": "bar"
     }]
-  }
+  },
   "fooId": 1,
   "count": "2"
 }
