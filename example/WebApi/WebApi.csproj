@@ -44,8 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Halcyon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Halcyon.1.0.6\lib\Halcyon.dll</HintPath>
+    <Reference Include="Halcyon, Version=1.1.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Halcyon.1.1.60.0-alpha\lib\net45\Halcyon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Halcyon.WebApi, Version=1.1.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Halcyon.WebApi.1.1.60.0-alpha\lib\net45\Halcyon.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

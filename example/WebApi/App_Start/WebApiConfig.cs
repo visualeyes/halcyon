@@ -1,4 +1,5 @@
 ﻿using Halcyon.HAL;
+using Halcyon.WebApi.HAL.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace HalcyonExample {
 
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new JsonHALMediaTypeFormatter(
-                halJsonMedaiTypes: new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" },
-                jsonMedaiTypes: new string[] { "application/vnd.example+json", "application/vnd.example.v1+json" }
+                halJsonMediaTypes: new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" },
+                jsonMediaTypes: new string[] { "application/vnd.example+json", "application/vnd.example.v1+json" }
             ));
 
             config.Routes.MapHttpRoute(

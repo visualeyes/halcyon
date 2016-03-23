@@ -1,20 +1,20 @@
 ﻿using Halcyon.HAL;
+using Halcyon.Web.HAL;
+using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace HalcyonExample.Controllers {
-    [RoutePrefix("api/foo")]
-    public class FooController : ApiController {
+    [Route("api/foo")]
+    public class FooController : Controller {
 
-        [HttpGet, Route("{id:int}")]
-        public IHttpActionResult Get(int id) {
+        [HttpGet("{id:int}")]
+        public IActionResult Get(int id) {
             // Any plain old object will do
             var fooModel = new {
-                id = id,
+                id,
                 type = "foo"
             };
             
@@ -25,8 +25,8 @@ namespace HalcyonExample.Controllers {
             });
         }
 
-        [HttpGet, Route("{fooId:int}/bars")]
-        public IHttpActionResult GetBar(int fooId) {
+        [HttpGet("{fooId:int}/bars")]
+        public IActionResult GetBar(int fooId) {
             // A collection of bars related to foo
             var bars = new List<object> {
                 new { id = 1, fooId = fooId, type = "bar" },
@@ -40,17 +40,15 @@ namespace HalcyonExample.Controllers {
             };
 
             // Return a fooBar resource with embedded bars
-            return this.HAL(
-                fooBarModel,
-                new Link[] {
+            var response = new HALResponse(fooBarModel)
+                .AddLinks(new Link[] {
                     new Link("self", "/api/foo/{fooId}/bar")
-                },
-                "bars",
-                bars,
-                new Link[] {
+                })
+                .AddEmbeddedCollection("bars", bars, new Link[] {
                     new Link("self", "/api/bar/{id}")
-                }
-            );
+                });
+
+            return this.Ok(response);
         }
     }
 }
