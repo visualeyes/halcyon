@@ -66,6 +66,8 @@ namespace Halcyon.Tests.HAL {
         [Theory]
         [InlineData(null, null, null)]
         [InlineData("", "", "")]
+        [InlineData("/", "/api", "/api")]
+        [InlineData("/app/", "/api", "/app/api")]
         [InlineData("http://localhost/", "/api", "http://localhost/api")]
         [InlineData("http://localhost/", "http://otherhost/api", "http://otherhost/api")]
         public void Rebase_Link(string baseUriString, string href, string expectedHref) {
