@@ -43,18 +43,20 @@ namespace Halcyon.Tests.HAL {
         }
 
         [Theory]
-        [InlineData(null, null, null)]
-        [InlineData("", "", null)]
-        [InlineData("href/{one}", "href/1", null)]
-        [InlineData("href/{two}", "href/", null)]
-        public void Create_Link(string href, string expectedHref, bool? isTemplated) {
+        [InlineData(null, null, null, true)]
+        [InlineData("", "", null, true)]
+        [InlineData("href/{one}", "href/1", null, true)]
+        [InlineData("href/{one}", "href/{one}", true, false)]
+        [InlineData("href/{two}", "href/", null, true)]
+        public void Create_Link(string href, string expectedHref, bool? isTemplated, bool replaceParameters) {
             var parameters = new Dictionary<string, object> {
                 { "one", 1 }
             };
 
             var link = new Link(
                 rel: "self",
-                href: href
+                href: href,
+                replaceParameters: replaceParameters
             );
 
             var templatedLink = link.CreateLink(parameters);

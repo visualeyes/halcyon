@@ -29,23 +29,23 @@ namespace Halcyon.Web.HAL {
             return hyperMedia.ToActionResult(controller, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, Link link, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
-            return controller.HAL(model, new Link[] { link }, relativeLinkBase, statuscode);
+        public static IActionResult HAL<T>(this Controller controller, T model, Link link, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
+            return controller.HAL(model, new Link[] { link }, relativeLinkBase, addSelfLinkIfNotExists, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
-            if (!links.Any()) {
-                return new ObjectResult(model) { StatusCode = (int)statuscode };
-            }
-
+        public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
-            var hyperMedia = new HALResponse(model, new HALModelConfig {
+            var response = new HALResponse(model, new HALModelConfig {
                 LinkBase = linkBase
             })
             .AddLinks(links);
 
-            return hyperMedia.ToActionResult(controller, statuscode);
+            if(addSelfLinkIfNotExists) {
+                response.AddSelfLinkIfNotExists(controller.Request);
+            }
+
+            return response.ToActionResult(controller, statuscode);
         }
 
         public static IActionResult HAL<T, E>(this Controller controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {

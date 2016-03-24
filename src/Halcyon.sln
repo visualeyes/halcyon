@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Halcyon.Tests.SelfHost.Mvc", "Halcyon.Tests.SelfHost.Mvc\Halcyon.Tests.SelfHost.Mvc.xproj", "{09471327-10FB-4308-8F33-91A9605FD230}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.Tests.SelfHost.WebApi", "Halcyon.Tests.SelfHost.WebApi\Halcyon.Tests.SelfHost.WebApi.csproj", "{2A2D18B8-29D8-4D43-BD71-BDE6464ACF8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{09471327-10FB-4308-8F33-91A9605FD230}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09471327-10FB-4308-8F33-91A9605FD230}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09471327-10FB-4308-8F33-91A9605FD230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A2D18B8-29D8-4D43-BD71-BDE6464ACF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A2D18B8-29D8-4D43-BD71-BDE6464ACF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A2D18B8-29D8-4D43-BD71-BDE6464ACF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A2D18B8-29D8-4D43-BD71-BDE6464ACF8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
