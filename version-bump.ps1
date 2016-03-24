@@ -1,7 +1,14 @@
 
 $buildNumber = $env:APPVEYOR_BUILD_VERSION
+$buildFolder = '.'
 
-$projectFilePath = ".\src\Halcyon.Mvc\project.json"
+if($env:APPVEYOR_BUILD_FOLDER) {
+	$buildFolder = $env:APPVEYOR_BUILD_FOLDER
+}
+
+$projectFilePath = Join-Path $buildFolder "src\Halcyon.Mvc\project.json"
+
+Write-Host "Bumping version for project file: $projectFilePath to $buildNumber"
 
 $projectConfig = Get-Content $projectFilePath | 
 					ConvertFrom-Json
