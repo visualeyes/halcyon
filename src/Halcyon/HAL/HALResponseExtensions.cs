@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Halcyon.HAL {
     public static class HALResponseExtensions {
-    
+        public static bool HasSelfLink(this HALResponse response) {
+            return response.HasLink(Link.RelForSelf);
+        }
+
         public static HALResponse AddLinks(this HALResponse halModel, params Link[] links) {
             return halModel.AddLinks(links);
         }

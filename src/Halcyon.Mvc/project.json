@@ -9,7 +9,7 @@
     "licenseUrl": "",
     "copyright": "Copyright 2016",
     "dependencies": {
-        "Halcyon": "1.1.44-alpha",
+        "Halcyon": "1.1.61-alpha",
         "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
         "Newtonsoft.Json": "6.0.4"
     },

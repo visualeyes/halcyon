@@ -36,6 +36,10 @@ namespace Halcyon.HAL {
             get { return config; }
         }
 
+        public bool HasLink(string rel) {
+            return links.Any(l => l.Rel == rel);
+        }
+
         public HALResponse AddLinks(IEnumerable<Link> links) {
             this.links.AddRange(links);
             return this;

@@ -11,8 +11,8 @@ using Xunit;
 
 namespace Halcyon.Tests.HAL {
     public class HALResponseTests {
-        private const string TestHalProperties = "\"_links\":{\"self\":{\"href\":\"one\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
-        private const string TestHalPropertiesLinkArray = "\"_links\":{\"self\":[{\"href\":\"one\"},{\"href\":\"two\"}]},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
+        private const string TestHalProperties = "\"_links\":{\"a\":{\"href\":\"one\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
+        private const string TestHalPropertiesLinkArray = "\"_links\":{\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}]},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
 
 
         [Theory]
@@ -25,13 +25,23 @@ namespace Halcyon.Tests.HAL {
 
         [Theory]
         [MemberData("GetTestModels")]
-        public void To_JObject(object model, Link linkOne, Link linkTwo, string embeddedName, object[] embedded) {
+        public void Has_Link(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
+            var response = new HALResponse(model)
+                .AddLinks(linkAOne);
+
+            Assert.True(response.HasLink(linkAOne.Rel));
+            Assert.False(response.HasLink(linkB.Rel));
+        }
+
+        [Theory]
+        [MemberData("GetTestModels")]
+        public void To_JObject(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
             string expected = GetExpectedJson(false);
 
             var serializer = new JsonSerializer();
 
             var response = new HALResponse(model)
-                .AddLinks(linkOne)
+                .AddLinks(linkAOne)
                 .AddEmbeddedCollection(embeddedName, embedded);
 
             var jObject = response.ToJObject(serializer);
@@ -42,14 +52,14 @@ namespace Halcyon.Tests.HAL {
 
         [Theory]
         [MemberData("GetTestModels")]
-        public void To_JObject_Link_Array(object model, Link linkOne, Link linkTwo, string embeddedName, object[] embedded) {
+        public void To_JObject_Link_Array(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
             string expected = GetExpectedJson(true);
 
             var serializer = new JsonSerializer();
 
             var response = new HALResponse(model)
-                .AddLinks(linkOne)
-                .AddLinks(linkTwo)
+                .AddLinks(linkAOne)
+                .AddLinks(linkATwo)
                 .AddEmbeddedCollection(embeddedName, embedded);
 
             var jObject = response.ToJObject(serializer);
@@ -67,8 +77,9 @@ namespace Halcyon.Tests.HAL {
         public static object[] GetTestModels() {
             var personModel = PersonModel.GetTestModel();
 
-            var linkOne = new Link("self", "one");
-            var linkTwo = new Link("self", "two");
+            var linkAOne = new Link("a", "one");
+            var linkATwo = new Link("a", "two");
+            var linkB = new Link("b", "two");
 
             string embeddedName = "bars";
             var embedded = new[] {
@@ -76,8 +87,8 @@ namespace Halcyon.Tests.HAL {
             };
 
             return new object[] {
-                new object[] { personModel, linkOne, linkTwo, embeddedName, embedded },
-                new object[] { JObject.FromObject(personModel), linkOne, linkTwo, embeddedName, embedded },
+                new object[] { personModel, linkAOne, linkATwo, linkB, embeddedName, embedded },
+                new object[] { JObject.FromObject(personModel), linkAOne, linkATwo, linkB, embeddedName, embedded },
             };
         }
 
