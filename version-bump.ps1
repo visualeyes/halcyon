@@ -1,3 +1,4 @@
+$ErrorActionPreference = "Stop"
 
 $buildNumber = $env:APPVEYOR_BUILD_VERSION
 $buildFolder = '.'
@@ -10,14 +11,6 @@ $projectFilePath = Join-Path $buildFolder "src\Halcyon.Mvc\project.json"
 
 Write-Host "Bumping version for project file: $projectFilePath to $buildNumber"
 
-$projectFileContent = Get-Content $projectFilePath
-
-Write-Host $projectFileContent
-
-$projectConfig = $projectFileContent | ConvertFrom-Json
-
-$projectConfig.version = "$buildNumber-alpha"
-
-$projectConfig | 
-	ConvertTo-Json |
-	Out-File $projectFilePath
+(gc -Path $projectFilePath) `
+	-replace "(?<=`"version`":\s`")[.\w-]*(?=`",)", "$buildNumber-alpha" |
+	sc -Path $projectFilePath -Encoding UTF8
