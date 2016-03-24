@@ -35,7 +35,7 @@ namespace Halcyon.Web.HAL.Json {
             // If it is a HAL response but set to application/json - convert to a plain response
             var serializer = Newtonsoft.Json.JsonSerializer.Create(jsonFormatter.SerializerSettings);
 
-            if (!halResponse.Config.ForceHAL && halJsonMediaTypes.Contains(mediaType)) {
+            if (!halResponse.Config.ForceHAL && !halJsonMediaTypes.Contains(mediaType)) {
                 value = halResponse.ToPlainResponse(serializer);
             } else {
                 value = halResponse.ToJObject(serializer);
