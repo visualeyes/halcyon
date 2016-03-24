@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{4E1AB3BE-CAC6-4828-99B2-342600191FD9}"
 	ProjectSection(SolutionItems) = preProject
 		..\appveyor.yml = ..\appveyor.yml
+		..\version-bump.ps1 = ..\version-bump.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.WebApi", "Halcyon.WebApi\Halcyon.WebApi.csproj", "{51141F80-555A-416D-9596-517B81D1BBC3}"

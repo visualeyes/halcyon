@@ -24,6 +24,9 @@ install:
 - dnvm upgrade -r clr
 - dnu restore
 
+before_build:
+- ps: .\version-bump.ps1
+
 build:
   verbosity: minimal
   project: src\Halcyon.sln
