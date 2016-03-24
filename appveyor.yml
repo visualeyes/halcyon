@@ -8,9 +8,6 @@ environment:
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
 
-before_build:
-  - nuget restore src/Halcyon.sln
-
 configuration: Release
 
 assembly_info:
@@ -21,11 +18,12 @@ assembly_info:
   assembly_informational_version: "{version}"
   
 install:
-- dnvm upgrade -r clr
-- dnu restore
+  - dnvm upgrade -r clr
+  - dnu restore
 
 before_build:
-- ps: .\version-bump.ps1
+  - nuget restore src/Halcyon.sln
+  - ps: .\version-bump.ps1
 
 build:
   verbosity: minimal
