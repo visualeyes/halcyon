@@ -32,6 +32,7 @@ namespace Halcyon.HAL
             {
                 throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", nameof(model));
             }
+            HALAttributeResolver.ResolveAttributes(this, model);
             this.dto = model;
         }
 
@@ -123,7 +124,6 @@ namespace Halcyon.HAL
 
             if (this.dto != null)
             {
-                HALAttributeResolver.ResolveAttributes(this, dto);
                 output = JObject.FromObject(this.dto, serializer);
             }
             else {
