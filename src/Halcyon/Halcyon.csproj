@@ -50,8 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HAL\Filters\IHalLinkAttribute.cs" />
-    <Compile Include="HAL\Filters\IHalModelAttribute.cs" />
+    <Compile Include="HAL\Attributes\HalPropertyAttribute.cs" />
+    <Compile Include="HAL\Attributes\HalEmbeddedAttribute.cs" />
+    <Compile Include="HAL\Attributes\HalLinkAttribute.cs" />
+    <Compile Include="HAL\Attributes\HalModelAttribute.cs" />
+    <Compile Include="HAL\HALAttributeResolver.cs" />
     <Compile Include="HAL\HALResponse.cs" />
     <Compile Include="HAL\HALModelConfig.cs" />
     <Compile Include="HAL\IHALModelConfig.cs" />

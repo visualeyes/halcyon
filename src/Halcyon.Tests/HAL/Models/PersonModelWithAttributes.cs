@@ -1,4 +1,5 @@
-using Halcyon.WebApi.HAL.Filters;
+using System.Collections.Generic;
+using Halcyon.HAL.Attributes;
 using Newtonsoft.Json;
 
 namespace Halcyon.Tests.HAL.Models
@@ -27,14 +28,17 @@ namespace Halcyon.Tests.HAL.Models
             get { return this.DisplayName + "(" + this.ID + ")"; }
         }
 
-        public static PersonModel GetTestModel()
-        {
-            return new PersonModel()
-            {
-                ID = 1,
-                FirstName = "fname",
-                LastName = "lname"
-            };
-        }
+        [HalEmbedded("pets")]
+        public List<Pet> Pets { get; set; } = new List<Pet>();
+
+        [HalEmbedded("favouritePet")]
+        public Pet FavouritePet { get; set; } = new Pet {Id = 0, Name = "Benji"};
+    }
+
+    [HalLink("self", "pets/{Id}")]
+    public class Pet
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

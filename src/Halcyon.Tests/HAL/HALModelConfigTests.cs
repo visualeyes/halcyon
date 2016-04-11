@@ -1,5 +1,6 @@
 ﻿using Halcyon.HAL;
 using Halcyon.Tests.HAL.Models;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Halcyon.Tests.HAL
@@ -23,8 +24,13 @@ namespace Halcyon.Tests.HAL
         {
             var model = new PersonModelWithAttributes();
             var hal = new HALResponse(model);
-            Assert.Equal(hal.Config.ForceHAL, true);
-            Assert.Equal(hal.Config.LinkBase, "~/api");
+            var serializer = new JsonSerializer();
+
+            var jObject = hal.ToJObject(serializer);
+
+
+            var selfLink = jObject["_links"]["self"]["href"];
+            Assert.StartsWith("~/api", selfLink.ToString());
         }
     }
 }

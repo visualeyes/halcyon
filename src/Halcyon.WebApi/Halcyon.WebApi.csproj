@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HAL\Filters\HalModelAttribute.cs" />
     <Compile Include="HAL\ControllerExtensions.cs" />
     <Compile Include="HAL\HALResponseExtensions.cs" />
     <Compile Include="HAL\Json\JsonHALMediaTypeFormatter.cs" />
