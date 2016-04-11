@@ -88,6 +88,7 @@
     <Compile Include="HAL\Json\JsonHALMediaTypeFormatterTests.cs" />
     <Compile Include="HAL\Models\PersonModel.cs" />
     <Compile Include="HAL\LinkTests.cs" />
+    <Compile Include="HAL\Models\PersonModelWithAttributes.cs" />
     <Compile Include="ObjectExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using Halcyon.HAL.Filters;
 
 namespace Halcyon.HAL {
     [JsonConverter(typeof(JsonHALModelConverter))]
@@ -27,6 +28,16 @@ namespace Halcyon.HAL {
             : this(config) {
             if (!(model is JObject) && (model is IEnumerable)) {
                 throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
+            }
+
+            var attributes = Attribute.GetCustomAttributes(model.GetType());
+            foreach (var attribute in attributes)
+            {
+                if (attribute is IHalModelAttribute)
+                {
+                    var modelConfig = (IHalModelAttribute) attribute;
+                    this.config = new HALModelConfig {ForceHAL = modelConfig.ForceHal, LinkBase = modelConfig.LinkBase};
+                }
             }
 
             this.dto = model;
