@@ -6,9 +6,9 @@ using Halcyon.HAL.Attributes;
 
 namespace Halcyon.HAL
 {
-    public class HALAttributeResolver
+    internal class HALAttributeResolver
     {
-        public static void ResolveAttributes(HALResponse halResponse, object model)
+        internal static void ResolveAttributes(HALResponse halResponse, object model)
         {
             var classAttributes = Attribute.GetCustomAttributes(model.GetType());
             foreach (var attribute in classAttributes)
