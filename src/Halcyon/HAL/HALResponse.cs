@@ -38,6 +38,11 @@ namespace Halcyon.HAL {
                     var modelConfig = (IHalModelAttribute) attribute;
                     this.config = new HALModelConfig {ForceHAL = modelConfig.ForceHal, LinkBase = modelConfig.LinkBase};
                 }
+                if (attribute is IHalLinkAttribute)
+                {
+                    var link = (IHalLinkAttribute)attribute;
+                    this.links.Add(new Link(link.Rel, link.Href, link.Title, link.Method));
+                }
             }
 
             this.dto = model;

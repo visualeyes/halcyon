@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 namespace Halcyon.Tests.HAL.Models
 {
     [HalModel("~/api", true)]
+    [HalLink("self", "person/{ID}")]
+    [HalLink("person", "person/{ID}")]
     public class PersonModelWithAttributes
     {
         public const string TestModelJson = "\"ID\":1,\"FirstName\":\"fname\",\"LastName\":\"lname\",\"display_name\":\"fname lname\"";

@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HAL\Filters\IHalLinkAttribute.cs" />
     <Compile Include="HAL\Filters\IHalModelAttribute.cs" />
     <Compile Include="HAL\HALResponse.cs" />
     <Compile Include="HAL\HALModelConfig.cs" />
