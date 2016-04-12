@@ -51,7 +51,7 @@ namespace Halcyon.HAL
                 if (embeddedItems.Any())
                 {
                     halResponse.AddEmbeddedCollection(embeddAttribute.CollectionName,
-                        embeddedItems.Select(embeddedModel => new HALResponse(embeddedModel)));
+                        embeddedItems.Select(embeddedModel => new HALResponse(embeddedModel, halResponse.Config)));
                 }
             }
         }
