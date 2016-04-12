@@ -80,6 +80,15 @@ namespace Halcyon.Tests.HAL.Json {
             await AssertModelJson(model, contentType, forceHal, expected);
         }
 
+        [Fact]
+        public void CanWrite_Returns_True_For_Model_With_Attributes()
+        {
+            var model = new PersonModelWithAttributes();
+            var formatter = new JsonHALMediaTypeFormatter();
+
+            Assert.True(formatter.CanWriteType(model.GetType()));
+        }
+
         private async Task AssertModelJson(object model, string contentType, bool forceHal, string expected) {
             using (var stream = new MemoryStream()) {
                 var content = new StringContent("");
