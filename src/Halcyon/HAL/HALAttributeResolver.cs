@@ -17,8 +17,14 @@ namespace Halcyon.HAL
                 if (modelAttribute != null)
                 {
                     var modelConfig = modelAttribute;
-                    halResponse.Config.LinkBase = modelConfig.LinkBase;
-                    halResponse.Config.ForceHAL = modelConfig.ForceHal;
+                    if (modelConfig.ForceHal.HasValue)
+                    {
+                        halResponse.Config.ForceHAL = modelConfig.ForceHal.Value;
+                    }
+                    if (modelConfig.LinkBase != null)
+                    {
+                        halResponse.Config.LinkBase = modelConfig.LinkBase;
+                    }
                 }
                 var linkAttribute = attribute as HalLinkAttribute;
                 if (linkAttribute != null)

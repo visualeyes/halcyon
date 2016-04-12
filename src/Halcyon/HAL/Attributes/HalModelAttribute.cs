@@ -6,9 +6,13 @@ namespace Halcyon.HAL.Attributes
     public class HalModelAttribute : Attribute
     {
         public string LinkBase { get; }
-        public bool ForceHal { get; }
+        public bool? ForceHal { get; }
 
-        public HalModelAttribute(string linkBase, bool forceHAL = false)
+        public HalModelAttribute(string linkBase = null)
+        {
+            LinkBase = linkBase;
+        }
+        public HalModelAttribute(string linkBase, bool forceHAL)
         {
             LinkBase = linkBase;
             ForceHal = forceHAL;
