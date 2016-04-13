@@ -78,8 +78,7 @@ namespace Halcyon.HAL {
                     if (link.Value is IEnumerable) {
                         var linksOuput = JArray.FromObject(link.Value);
                         linksOutput.Add(link.Key, linksOuput);
-                    }
-                    else {
+                    } else {
                         var linkOuput = JObject.FromObject(link.Value);
                         linksOutput.Add(link.Key, linkOuput);
                     }
@@ -105,8 +104,7 @@ namespace Halcyon.HAL {
 
             if (this.dto != null) {
                 output = JObject.FromObject(this.dto, serializer);
-            }
-            else {
+            } else {
                 output = new JObject();
             }
 
