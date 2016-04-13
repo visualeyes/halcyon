@@ -6,11 +6,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Halcyon.HAL
-{
+namespace Halcyon.HAL {
     [JsonConverter(typeof(JsonHALModelConverter))]
-    public class HALResponse
-    {
+    public class HALResponse {
         public const string LinksKey = "_links";
         public const string EmbeddedKey = "_embedded";
 
@@ -20,78 +18,64 @@ namespace Halcyon.HAL
         private readonly List<Link> links = new List<Link>();
         private readonly Dictionary<string, IEnumerable<HALResponse>> embedded = new Dictionary<string, IEnumerable<HALResponse>>();
 
-        public HALResponse(IHALModelConfig config)
-        {
+        public HALResponse(IHALModelConfig config) {
             this.config = config ?? new HALModelConfig();
         }
 
         public HALResponse(object model, IHALModelConfig config = null)
-            : this(config)
-        {
-            if (!(model is JObject) && (model is IEnumerable))
-            {
+            : this(config) {
+            if (!(model is JObject) && (model is IEnumerable)) {
                 throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", nameof(model));
             }
             HALAttributeResolver.ResolveAttributes(this, model);
             this.dto = model;
         }
 
-        public IHALModelConfig Config
-        {
+        public IHALModelConfig Config {
             get { return config; }
         }
 
-        public bool HasLink(string rel)
-        {
+        public bool HasLink(string rel) {
             return links.Any(l => l.Rel == rel);
         }
 
-        public HALResponse AddLinks(IEnumerable<Link> links)
-        {
+        public HALResponse AddLinks(IEnumerable<Link> links) {
             this.links.AddRange(links);
             return this;
         }
 
-        public HALResponse AddEmbeddedCollection(string name, IEnumerable<HALResponse> objects)
-        {
+        public HALResponse AddEmbeddedCollection(string name, IEnumerable<HALResponse> objects) {
             embedded.Add(name, objects);
             return this;
         }
 
-        public object ToPlainResponse(JsonSerializer serializer, bool attachEmbedded = true)
-        {
+        public object ToPlainResponse(JsonSerializer serializer, bool attachEmbedded = true) {
             var output = GetBaseJObject(serializer);
 
-            if (this.embedded.Any())
-            {
+            if (this.embedded.Any()) {
                 var plainEmbedded = this.embedded.ToDictionary(
                         e => e.Key,
                         e => e.Value.Select(m => m.ToPlainResponse(serializer))
                 );
 
                 var embeddedObject = JObject.FromObject(plainEmbedded);
-
                 output.Merge(embeddedObject);
             }
 
             return output;
         }
 
-        public JObject ToJObject(JsonSerializer serializer)
-        {
+        public JObject ToJObject(JsonSerializer serializer) {
             var output = GetBaseJObject(serializer);
 
-            if (this.links.Any())
-            {
+            if (this.links.Any()) {
                 var linksOutput = new JObject();
 
                 var dtoProps = this.dto?.ToDictionary() ?? new Dictionary<string, object>();
                 var resolvedLinks = GetResolvedLinks(this.links, dtoProps, this.config.LinkBase);
 
-                foreach (var link in resolvedLinks)
-                {
-                    if (link.Value is IEnumerable)
-                    {
+                foreach (var link in resolvedLinks) {
+                    if (link.Value is IEnumerable) {
                         var linksOuput = JArray.FromObject(link.Value);
                         linksOutput.Add(link.Key, linksOuput);
                     }
@@ -104,11 +88,9 @@ namespace Halcyon.HAL
                 output.Add(LinksKey, linksOutput);
             }
 
-            if (this.embedded.Any())
-            {
+            if (this.embedded.Any()) {
                 var embeddedOutput = new JObject();
-                foreach (var embedPair in this.embedded)
-                {
+                foreach (var embedPair in this.embedded) {
                     embeddedOutput.Add(embedPair.Key, new JArray(embedPair.Value.Select(m => m.ToJObject(serializer))));
                 }
 
@@ -118,12 +100,10 @@ namespace Halcyon.HAL
             return output;
         }
 
-        private JObject GetBaseJObject(JsonSerializer serializer)
-        {
+        private JObject GetBaseJObject(JsonSerializer serializer) {
             JObject output;
 
-            if (this.dto != null)
-            {
+            if (this.dto != null) {
                 output = JObject.FromObject(this.dto, serializer);
             }
             else {
@@ -133,19 +113,16 @@ namespace Halcyon.HAL
             return output;
         }
 
-        private static Dictionary<string, object> GetResolvedLinks(IEnumerable<Link> links, IDictionary<string, object> properties, string linkBase)
-        {
+        private static Dictionary<string, object> GetResolvedLinks(IEnumerable<Link> links, IDictionary<string, object> properties, string linkBase) {
             var subsituted = links;
 
-            if (properties.Any())
-            {
+            if (properties.Any()) {
                 subsituted = links.Select(l => l.CreateLink(properties)).ToList();
             }
 
             var resolved = subsituted;
 
-            if (!String.IsNullOrWhiteSpace(linkBase))
-            {
+            if (!String.IsNullOrWhiteSpace(linkBase)) {
                 resolved = subsituted.Select(l => l.RebaseLink(linkBase)).ToList();
             }
 
