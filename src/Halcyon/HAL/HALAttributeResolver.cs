@@ -42,7 +42,7 @@ namespace Halcyon.HAL
             return null;
         }
 
-        public HALResponse ResolveAttributes(HALResponse halResponse)
+        public void ResolveAttributes(HALResponse halResponse)
         {
             foreach (var attribute in _classAttributes)
             {
@@ -76,7 +76,6 @@ namespace Halcyon.HAL
                     halResponse.AddEmbeddedCollection(embeddAttribute.CollectionName, halResponses);
                 }
             }
-            return halResponse;
         }
     }
 }

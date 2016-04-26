@@ -19,8 +19,11 @@ namespace Halcyon.Tests.HAL
             var jObject = halResponse.ToJObject(serializer);
 
             var embedded = jObject["_embedded"]["pets"][0];
+            var embeddedSelfLink = embedded["_links"]["self"];
+
             Assert.Equal("Fido", embedded["Name"]);
             Assert.Equal("1", embedded["Id"]);
+            Assert.Equal("pets/1", embeddedSelfLink["href"].ToString());
         }
 
         [Fact]
