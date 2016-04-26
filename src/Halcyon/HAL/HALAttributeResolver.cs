@@ -42,7 +42,7 @@ namespace Halcyon.HAL
             return null;
         }
 
-        public void ResolveAttributes(HALResponse halResponse)
+        public HALResponse ResolveAttributes(HALResponse halResponse)
         {
             foreach (var attribute in _classAttributes)
             {
@@ -61,19 +61,22 @@ namespace Halcyon.HAL
                 var embeddAttribute = propertyInfo.GetCustomAttribute(typeof(HalEmbeddedAttribute)) as HalEmbeddedAttribute;
                 if (embeddAttribute == null) continue;
 
-                var embeddedItems = modelValue as IEnumerable<object>;
-                if (embeddedItems == null)
-                {
-                    //Allow non enumerable properties as single value enumerables
-                    embeddedItems = new List<object> { modelValue };
-                }
+                var embeddedItems = modelValue as IEnumerable<object> ?? new List<object> { modelValue };
+                embeddedItems = embeddedItems.ToList();
 
                 if (embeddedItems.Any())
                 {
-                    halResponse.AddEmbeddedCollection(embeddAttribute.CollectionName,
-                        embeddedItems.Select(embeddedModel => new HALResponse(embeddedModel, halResponse.Config)));
+                    var embeddedResolver = new HALAttributeResolver(embeddedItems.First());
+                    var halResponses = embeddedItems.Select(embeddedModel => new HALResponse(embeddedModel, halResponse.Config)).ToArray();
+                    foreach (var response in halResponses)
+                    {
+                        embeddedResolver.ResolveAttributes(response);
+                    }
+
+                    halResponse.AddEmbeddedCollection(embeddAttribute.CollectionName, halResponses);
                 }
             }
+            return halResponse;
         }
     }
 }
