@@ -83,6 +83,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HAL\ControllerExtensionsTests.cs" />
     <Compile Include="HAL\EmbeddAttributeTests.cs" />
+    <Compile Include="HAL\HALAttributeConverterTests.cs" />
     <Compile Include="HAL\HALModelConfigTests.cs" />
     <Compile Include="HAL\HALModelExtensionTests.cs" />
     <Compile Include="HAL\HALResponseTests.cs" />

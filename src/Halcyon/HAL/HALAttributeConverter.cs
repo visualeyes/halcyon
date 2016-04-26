@@ -8,7 +8,12 @@ namespace Halcyon.HAL
     {
         public bool CanConvert(Type type, object model)
         {
-            return Attribute.GetCustomAttributes(type).Any(x => x is HalModelAttribute) && model != null;
+            var response = model as HALResponse;
+            if (response == null)
+            {
+                return Attribute.GetCustomAttributes(type).Any(x => x is HalModelAttribute) && model != null;
+            }
+            return Attribute.GetCustomAttributes(response.Model.GetType()).Any(x => x is HalModelAttribute);
         }
 
         public HALResponse Convert(object model)
