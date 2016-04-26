@@ -54,9 +54,11 @@
     <Compile Include="HAL\Attributes\HalEmbeddedAttribute.cs" />
     <Compile Include="HAL\Attributes\HalLinkAttribute.cs" />
     <Compile Include="HAL\Attributes\HalModelAttribute.cs" />
+    <Compile Include="HAL\HALAttributeConverter.cs" />
     <Compile Include="HAL\HALAttributeResolver.cs" />
     <Compile Include="HAL\HALResponse.cs" />
     <Compile Include="HAL\HALModelConfig.cs" />
+    <Compile Include="HAL\IHALConverter.cs" />
     <Compile Include="HAL\IHALModelConfig.cs" />
     <Compile Include="HAL\Json\JsonHALModelConverter.cs" />
     <Compile Include="HAL\Link.cs" />

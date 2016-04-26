@@ -6,25 +6,46 @@ using Halcyon.HAL.Attributes;
 
 namespace Halcyon.HAL
 {
-    internal class HALAttributeResolver
+    public class HALAttributeResolver
     {
-        internal static void ResolveAttributes(HALResponse halResponse, object model)
+        private readonly object _model;
+        private readonly Attribute[] _classAttributes;
+
+        public HALAttributeResolver(object model)
         {
-            var classAttributes = Attribute.GetCustomAttributes(model.GetType());
-            foreach (var attribute in classAttributes)
+            _model = model;
+            _classAttributes = Attribute.GetCustomAttributes(model.GetType());
+        }
+
+        public IHALModelConfig ResolveConfig()
+        {
+            foreach (var attribute in _classAttributes)
             {
                 var modelAttribute = attribute as HalModelAttribute;
                 if (modelAttribute != null)
                 {
-                    if (modelAttribute.ForceHal.HasValue)
+                    if (modelAttribute.ForceHal.HasValue || modelAttribute.LinkBase != null)
                     {
-                        halResponse.Config.ForceHAL = modelAttribute.ForceHal.Value;
-                    }
-                    if (modelAttribute.LinkBase != null)
-                    {
-                        halResponse.Config.LinkBase = modelAttribute.LinkBase;
+                        var config = new HALModelConfig();
+                        if (modelAttribute.ForceHal.HasValue)
+                        {
+                            config.ForceHAL = modelAttribute.ForceHal.Value;
+                        }
+                        if (modelAttribute.LinkBase != null)
+                        {
+                            config.LinkBase = modelAttribute.LinkBase;
+                        }
+                        return config;
                     }
                 }
+            }
+            return null;
+        }
+
+        public void ResolveAttributes(HALResponse halResponse)
+        {
+            foreach (var attribute in _classAttributes)
+            {
                 var linkAttribute = attribute as HalLinkAttribute;
                 if (linkAttribute != null)
                 {
@@ -32,13 +53,13 @@ namespace Halcyon.HAL
                 }
             }
 
-            var modelProperties = model.GetType().GetProperties().Where(x => Attribute.IsDefined(x, typeof(HalPropertyAttribute)));
+            var modelProperties = _model.GetType().GetProperties().Where(x => Attribute.IsDefined(x, typeof(HalPropertyAttribute)));
             foreach (var propertyInfo in modelProperties)
             {
-                var modelValue = propertyInfo.GetValue(model);
-                if(modelValue == null) continue;
+                var modelValue = propertyInfo.GetValue(_model);
+                if (modelValue == null) continue;
                 var embeddAttribute = propertyInfo.GetCustomAttribute(typeof(HalEmbeddedAttribute)) as HalEmbeddedAttribute;
-                if(embeddAttribute == null) continue;
+                if (embeddAttribute == null) continue;
 
                 var embeddedItems = modelValue as IEnumerable<object>;
                 if (embeddedItems == null)

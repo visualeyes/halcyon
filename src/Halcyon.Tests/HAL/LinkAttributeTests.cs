@@ -10,8 +10,11 @@ namespace Halcyon.Tests.HAL
         public void Link_Constructed_From_Attribute()
         {
             var model = new PersonModelWithAttributes();
+            var converter = new HALAttributeConverter();
             var halResponse = new HALResponse(model);
-            
+
+            halResponse = converter.Convert(halResponse);
+
             Assert.True(halResponse.HasSelfLink());
         }
 
@@ -19,8 +22,11 @@ namespace Halcyon.Tests.HAL
         public void Custom_Link_Constructed_From_Attribute()
         {
             var model = new PersonModelWithAttributes();
+            var converter = new HALAttributeConverter();
             var halResponse = new HALResponse(model);
-            
+
+            halResponse = converter.Convert(halResponse);
+
             Assert.True(halResponse.HasLink("person"));
         }
     }

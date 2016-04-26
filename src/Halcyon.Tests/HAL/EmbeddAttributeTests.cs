@@ -12,7 +12,9 @@ namespace Halcyon.Tests.HAL
         {
             var model = new PersonModelWithAttributes();
             model.Pets.Add(new Pet { Id = 1, Name = "Fido" });
+            var converter = new HALAttributeConverter();
             var halResponse = new HALResponse(model);
+            halResponse = converter.Convert(halResponse);
             var serializer = new JsonSerializer();
             var jObject = halResponse.ToJObject(serializer);
 
@@ -25,7 +27,9 @@ namespace Halcyon.Tests.HAL
         public void Embedded_Single_Property_Constructed_From_Attribute()
         {
             var model = new PersonModelWithAttributes();
+            var converter = new HALAttributeConverter();
             var halResponse = new HALResponse(model);
+            halResponse = converter.Convert(halResponse);
             var serializer = new JsonSerializer();
 
             var jObject = halResponse.ToJObject(serializer);

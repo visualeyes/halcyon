@@ -7,19 +7,20 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Halcyon.HAL.Attributes;
 
 namespace Halcyon.WebApi.HAL.Json {
     public class JsonHALMediaTypeFormatter : JsonMediaTypeFormatter {
         private const string HalJsonType = "application/hal+json";
 
         private readonly string[] jsonMediaTypes;
+        private readonly IHALConverter[] _converters;
 
-        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null) {
+        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null, params IHALConverter[] converters) {
             if (halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
+            _converters = converters;
 
             foreach (var mediaType in halJsonMediaTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -60,15 +61,18 @@ namespace Halcyon.WebApi.HAL.Json {
         }
 
         private bool TryGetHalResponse(Type type, object value, out HALResponse response) {
+            if (_converters != null) {
+                foreach (var converter in _converters) {
+                    if (converter.CanConvert(type, value)) {
+                        response = converter.Convert(value);
+                        return true;
+                    }
+                }
+            }
             if (type == typeof(HALResponse) && value != null) {
                 response = (HALResponse)value;
                 return true;
             }
-            if (Attribute.GetCustomAttributes(type).Any(x => x is HalModelAttribute) && value != null) {
-                response = new HALResponse(value);
-                return true;
-            }
-
             response = null;
             return false;
         }
