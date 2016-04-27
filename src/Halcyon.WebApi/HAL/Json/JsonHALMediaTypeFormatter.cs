@@ -61,11 +61,9 @@ namespace Halcyon.WebApi.HAL.Json {
         }
 
         private bool TryGetHalResponse(Type type, object value, out HALResponse response) {
-            foreach (var converter in _converters) {
-                if (converter.CanConvert(type, value)) {
+            foreach (var converter in _converters.Where(c => c.CanConvert(type, value))) {
                     response = converter.Convert(value);
                     return true;
-                }
             }
             if (type == typeof(HALResponse) && value != null) {
                 response = (HALResponse)value;
