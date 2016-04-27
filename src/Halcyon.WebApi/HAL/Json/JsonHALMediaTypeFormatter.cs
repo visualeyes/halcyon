@@ -20,7 +20,7 @@ namespace Halcyon.WebApi.HAL.Json {
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
-            _converters = converters;
+            _converters = converters ?? new IHALConverter[0];
 
             foreach (var mediaType in halJsonMediaTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -61,12 +61,10 @@ namespace Halcyon.WebApi.HAL.Json {
         }
 
         private bool TryGetHalResponse(Type type, object value, out HALResponse response) {
-            if (_converters != null) {
-                foreach (var converter in _converters) {
-                    if (converter.CanConvert(type, value)) {
-                        response = converter.Convert(value);
-                        return true;
-                    }
+            foreach (var converter in _converters) {
+                if (converter.CanConvert(type, value)) {
+                    response = converter.Convert(value);
+                    return true;
                 }
             }
             if (type == typeof(HALResponse) && value != null) {
