@@ -45,3 +45,4 @@ deploy:
   skip_symbols: false
   on:
    branch: master
+   appveyor_repo_tag: true
