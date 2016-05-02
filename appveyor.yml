@@ -1,6 +1,6 @@
 os: Visual Studio 2015
 
-version: 1.1.0+{build}
+version: 1.1.{build}
 environment:
     COVERALLS_REPO_TOKEN:  
        secure: 8JYxwCWszeAaWBr41pD17LB925K7Sk7utvKsIb1qz44i2anf9uLmvh2q0ilMQTBO
