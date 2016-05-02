@@ -1,6 +1,5 @@
 ﻿using Halcyon.HAL;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,12 +13,14 @@ namespace Halcyon.WebApi.HAL.Json {
         private const string HalJsonType = "application/hal+json";
 
         private readonly string[] jsonMediaTypes;
+        private readonly IHALConverter[] _converters;
 
-        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null) {
+        public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null, params IHALConverter[] converters) {
             if (halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
+            _converters = converters ?? new IHALConverter[0];
 
             foreach (var mediaType in halJsonMediaTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -43,10 +44,9 @@ namespace Halcyon.WebApi.HAL.Json {
         }
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext) {
-            
             // If it is a HAL response but set to application/json - convert to a plain response
-            if(type == typeof(HALResponse) && value != null) {
-                var halResponse = ((HALResponse)value);
+            HALResponse halResponse = null;
+            if (TryGetHalResponse(type, value, out halResponse)) {
                 var serializer = this.CreateJsonSerializer();
 
                 string mediaType = content.Headers.ContentType.MediaType;
@@ -56,8 +56,21 @@ namespace Halcyon.WebApi.HAL.Json {
                     value = halResponse.ToJObject(serializer);
                 }
             }
-            
+
             return base.WriteToStreamAsync(type, value, writeStream, content, transportContext);
+        }
+
+        private bool TryGetHalResponse(Type type, object value, out HALResponse response) {
+            foreach (var converter in _converters.Where(c => c.CanConvert(type, value))) {
+                    response = converter.Convert(value);
+                    return true;
+            }
+            if (type == typeof(HALResponse) && value != null) {
+                response = (HALResponse)value;
+                return true;
+            }
+            response = null;
+            return false;
         }
     }
 }

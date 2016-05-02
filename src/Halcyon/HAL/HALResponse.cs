@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 
 namespace Halcyon.HAL {
@@ -15,7 +14,7 @@ namespace Halcyon.HAL {
 
         private readonly IHALModelConfig config;
 
-        private readonly object dto;
+        internal object Model { get; }
         private readonly List<Link> links = new List<Link>();
         private readonly Dictionary<string, IEnumerable<HALResponse>> embedded = new Dictionary<string, IEnumerable<HALResponse>>();
 
@@ -26,10 +25,9 @@ namespace Halcyon.HAL {
         public HALResponse(object model, IHALModelConfig config = null)
             : this(config) {
             if (!(model is JObject) && (model is IEnumerable)) {
-                throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
+                throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", nameof(model));
             }
-
-            this.dto = model;
+            this.Model = model;
         }
 
         public IHALModelConfig Config {
@@ -60,7 +58,6 @@ namespace Halcyon.HAL {
                 );
 
                 var embeddedObject = JObject.FromObject(plainEmbedded);
-
                 output.Merge(embeddedObject);
             }
 
@@ -73,7 +70,7 @@ namespace Halcyon.HAL {
             if (this.links.Any()) {
                 var linksOutput = new JObject();
 
-                var dtoProps = this.dto?.ToDictionary() ?? new Dictionary<string, object>();
+                var dtoProps = this.Model?.ToDictionary() ?? new Dictionary<string, object>();
                 var resolvedLinks = GetResolvedLinks(this.links, dtoProps, this.config.LinkBase);
 
                 foreach (var link in resolvedLinks) {
@@ -104,8 +101,8 @@ namespace Halcyon.HAL {
         private JObject GetBaseJObject(JsonSerializer serializer) {
             JObject output;
 
-            if (this.dto != null) {
-                output = JObject.FromObject(this.dto, serializer);
+            if (this.Model != null) {
+                output = JObject.FromObject(this.Model, serializer);
             } else {
                 output = new JObject();
             }
