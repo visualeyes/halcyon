@@ -13,14 +13,14 @@ namespace Halcyon.WebApi.HAL.Json {
         private const string HalJsonType = "application/hal+json";
 
         private readonly string[] jsonMediaTypes;
-        private readonly IHALConverter[] _converters;
+        private readonly IHALConverter[] converters;
 
         public JsonHALMediaTypeFormatter(string[] halJsonMediaTypes = null, string[] jsonMediaTypes = null, params IHALConverter[] converters) {
             if (halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
             if (jsonMediaTypes == null) jsonMediaTypes = new string[] { };
 
             this.jsonMediaTypes = jsonMediaTypes;
-            _converters = converters ?? new IHALConverter[0];
+            this.converters = converters ?? new IHALConverter[0];
 
             foreach (var mediaType in halJsonMediaTypes) {
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -46,6 +46,7 @@ namespace Halcyon.WebApi.HAL.Json {
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext) {
             // If it is a HAL response but set to application/json - convert to a plain response
             HALResponse halResponse = null;
+
             if (TryGetHalResponse(type, value, out halResponse)) {
                 var serializer = this.CreateJsonSerializer();
 
@@ -61,14 +62,16 @@ namespace Halcyon.WebApi.HAL.Json {
         }
 
         private bool TryGetHalResponse(Type type, object value, out HALResponse response) {
-            foreach (var converter in _converters.Where(c => c.CanConvert(type, value))) {
-                    response = converter.Convert(value);
-                    return true;
+            foreach (var converter in converters.Where(c => c.CanConvert(type))) {
+                response = converter.Convert(value);
+                return true;
             }
+
             if (type == typeof(HALResponse) && value != null) {
                 response = (HALResponse)value;
                 return true;
             }
+
             response = null;
             return false;
         }

@@ -34,7 +34,7 @@ namespace Halcyon.Web.HAL {
         }
 
         public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
-            if (!links.Any()) {
+            if(!links.Any()) {
                 return new ObjectResult(model) { StatusCode = (int)statuscode };
             }
 
@@ -69,12 +69,12 @@ namespace Halcyon.Web.HAL {
 
             return hyperMedia.ToActionResult(controller, statuscode);
         }
-        
-                
+
+
         private static string GetLinkBase(Controller controller, string relativeLinkBase) {
             string linkBase = null;
 
-            if (!String.IsNullOrWhiteSpace(relativeLinkBase)) {
+            if(!String.IsNullOrWhiteSpace(relativeLinkBase)) {
                 linkBase = controller.Url.Content(relativeLinkBase);
             }
 

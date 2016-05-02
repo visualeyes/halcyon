@@ -1,7 +1,5 @@
 ﻿using System;
 
-namespace Halcyon.HAL.Attributes
-{
-    public abstract class HalPropertyAttribute : Attribute
-    {}
+namespace Halcyon.HAL.Attributes {
+    public abstract class HalPropertyAttribute : Attribute { }
 }
