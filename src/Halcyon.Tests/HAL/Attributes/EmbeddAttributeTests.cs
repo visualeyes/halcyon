@@ -53,13 +53,8 @@ namespace Halcyon.Tests.HAL {
             var jObject = halResponse.ToJObject(serializer);
 
             var links = jObject["_links"];
-            var self = links["self"];
-            var next = links["next"];
-            var prev = links["prev"];
 
-            Assert.Equal("~/api/person?index=5", self["href"]);
-            Assert.Equal("~/api/person?index=6", next["href"]);
-            Assert.Equal("~/api/person?index=4", prev["href"]);
+            Assert.Equal("~/api/person?index=5", links["self"]["href"]);
         }
     }
 }

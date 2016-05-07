@@ -95,6 +95,7 @@
     <Compile Include="HAL\Models\PersonModelWithAttributes.cs" />
     <Compile Include="ObjectExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\TemplateExtensionFacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
