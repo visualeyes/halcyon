@@ -28,5 +28,14 @@ namespace Halcyon.HAL {
 
             return hyperMedia;
         }
+
+        public static HALResponse AddEmbeddedCollections(this HALResponse response, IEnumerable<KeyValuePair<string, IEnumerable<HALResponse>>> embeddedCollections) {
+
+            foreach(var embeddedCollection in embeddedCollections) {
+                response.AddEmbeddedCollection(embeddedCollection.Key, embeddedCollection.Value);
+            }
+
+            return response;
+        }
     }
 }

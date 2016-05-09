@@ -69,12 +69,12 @@ namespace Halcyon.Web.HAL {
 
             return hyperMedia.ToActionResult(controller, statuscode);
         }
-        
-                
+
+
         private static string GetLinkBase(Controller controller, string relativeLinkBase) {
             string linkBase = null;
 
-            if (!String.IsNullOrWhiteSpace(relativeLinkBase)) {
+            if(!String.IsNullOrWhiteSpace(relativeLinkBase)) {
                 linkBase = controller.Url.Content(relativeLinkBase);
             }
 

@@ -18,7 +18,7 @@ namespace Halcyon.HAL.Json {
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
             var model = value as HALResponse;
-            if (model == null) return;
+            if(model == null) return;
 
             var output = model.ToJObject(serializer);
             output.WriteTo(writer);

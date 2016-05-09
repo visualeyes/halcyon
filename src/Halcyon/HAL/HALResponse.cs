@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 
 namespace Halcyon.HAL {
@@ -15,7 +14,7 @@ namespace Halcyon.HAL {
 
         private readonly IHALModelConfig config;
 
-        private readonly object dto;
+        private readonly object model;
         private readonly List<Link> links = new List<Link>();
         private readonly Dictionary<string, IEnumerable<HALResponse>> embedded = new Dictionary<string, IEnumerable<HALResponse>>();
 
@@ -25,12 +24,13 @@ namespace Halcyon.HAL {
 
         public HALResponse(object model, IHALModelConfig config = null)
             : this(config) {
-            if (!(model is JObject) && (model is IEnumerable)) {
-                throw new ArgumentException("The HAL model should be Enumerable. You should use an embedded collection instead", "model");
+            if(!(model is JObject) && (model is IEnumerable)) {
+                throw new ArgumentException("The HAL model should not be Enumerable. You should use an embedded collection instead", nameof(model));
             }
-
-            this.dto = model;
+            this.model = model;
         }
+
+        public object Model { get { return model; } }
 
         public IHALModelConfig Config {
             get { return config; }
@@ -53,14 +53,13 @@ namespace Halcyon.HAL {
         public object ToPlainResponse(JsonSerializer serializer, bool attachEmbedded = true) {
             var output = GetBaseJObject(serializer);
 
-            if (this.embedded.Any()) {
+            if(this.embedded.Any()) {
                 var plainEmbedded = this.embedded.ToDictionary(
                         e => e.Key,
                         e => e.Value.Select(m => m.ToPlainResponse(serializer))
                 );
 
                 var embeddedObject = JObject.FromObject(plainEmbedded);
-
                 output.Merge(embeddedObject);
             }
 
@@ -70,14 +69,14 @@ namespace Halcyon.HAL {
         public JObject ToJObject(JsonSerializer serializer) {
             var output = GetBaseJObject(serializer);
 
-            if (this.links.Any()) {
+            if(this.links.Any()) {
                 var linksOutput = new JObject();
 
-                var dtoProps = this.dto?.ToDictionary() ?? new Dictionary<string, object>();
+                var dtoProps = this.model?.ToDictionary() ?? new Dictionary<string, object>();
                 var resolvedLinks = GetResolvedLinks(this.links, dtoProps, this.config.LinkBase);
 
-                foreach (var link in resolvedLinks) {
-                    if (link.Value is IEnumerable) {
+                foreach(var link in resolvedLinks) {
+                    if(link.Value is IEnumerable) {
                         var linksOuput = JArray.FromObject(link.Value);
                         linksOutput.Add(link.Key, linksOuput);
                     } else {
@@ -89,9 +88,9 @@ namespace Halcyon.HAL {
                 output.Add(LinksKey, linksOutput);
             }
 
-            if (this.embedded.Any()) {
+            if(this.embedded.Any()) {
                 var embeddedOutput = new JObject();
-                foreach (var embedPair in this.embedded) {
+                foreach(var embedPair in this.embedded) {
                     embeddedOutput.Add(embedPair.Key, new JArray(embedPair.Value.Select(m => m.ToJObject(serializer))));
                 }
 
@@ -104,8 +103,8 @@ namespace Halcyon.HAL {
         private JObject GetBaseJObject(JsonSerializer serializer) {
             JObject output;
 
-            if (this.dto != null) {
-                output = JObject.FromObject(this.dto, serializer);
+            if(this.model != null) {
+                output = JObject.FromObject(this.model, serializer);
             } else {
                 output = new JObject();
             }
@@ -116,13 +115,13 @@ namespace Halcyon.HAL {
         private static Dictionary<string, object> GetResolvedLinks(IEnumerable<Link> links, IDictionary<string, object> properties, string linkBase) {
             var subsituted = links;
 
-            if (properties.Any()) {
+            if(properties.Any()) {
                 subsituted = links.Select(l => l.CreateLink(properties)).ToList();
             }
 
             var resolved = subsituted;
 
-            if (!String.IsNullOrWhiteSpace(linkBase)) {
+            if(!String.IsNullOrWhiteSpace(linkBase)) {
                 resolved = subsituted.Select(l => l.RebaseLink(linkBase)).ToList();
             }
 

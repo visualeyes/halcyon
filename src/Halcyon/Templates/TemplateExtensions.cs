@@ -11,7 +11,7 @@ namespace Halcyon.Templates {
         public static string SubstituteParams(this string uriTemplateString, IDictionary<string, object> parameters) {
             var uriTemplate = new UriTemplate(uriTemplateString);
 
-            foreach (var parameter in parameters) {
+            foreach(var parameter in parameters) {
                 var name = parameter.Key;
                 var value = parameter.Value;
 

@@ -54,26 +54,26 @@ namespace Halcyon.HAL {
 
         [JsonProperty("hreflang", NullValueHandling = NullValueHandling.Ignore)]
         public string HrefLang { get; set; }
-        
+
         internal Link CreateLink(IDictionary<string, object> parameters) {
             var clone = Clone();
-            
+
             if(replaceParameters && !String.IsNullOrWhiteSpace(clone.Href) && parameters != null) {
                 clone.Href = clone.Href.SubstituteParams(parameters);
             }
 
             return clone;
         }
-        
+
         internal Link RebaseLink(string baseUriString) {
             var clone = Clone();
 
-            if (!String.IsNullOrWhiteSpace(baseUriString)) {
+            if(!String.IsNullOrWhiteSpace(baseUriString)) {
                 var hrefUri = GetHrefUri(clone.Href);
-                if (!hrefUri.IsAbsoluteUri) {
+                if(!hrefUri.IsAbsoluteUri) {
                     var baseUri = new Uri(baseUriString, UriKind.RelativeOrAbsolute);
-                    
-                    if (baseUri.IsAbsoluteUri) {
+
+                    if(baseUri.IsAbsoluteUri) {
                         var rebasedUri = new Uri(baseUri, hrefUri);
                         clone.Href = rebasedUri.ToString();
                     } else {

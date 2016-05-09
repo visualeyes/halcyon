@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon", "Halcyon\Halcyon.csproj", "{6D43348B-BB99-4431-BF49-F5C277EB2069}"
 EndProject
@@ -23,9 +23,6 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Halcyon.Mvc", "Halcyon.Mvc\Halcyon.Mvc.xproj", "{61301A50-41DB-43E0-AA67-867AB52B0CA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7CAE2965-EABD-493F-8DF4-BF2EAE886FF5}"
-	ProjectSection(SolutionItems) = preProject
-		Halycon.ASPNETCore\global.json = Halycon.ASPNETCore\global.json
-	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Halcyon.Tests.SelfHost.Mvc", "Halcyon.Tests.SelfHost.Mvc\Halcyon.Tests.SelfHost.Mvc.xproj", "{09471327-10FB-4308-8F33-91A9605FD230}"
 EndProject
