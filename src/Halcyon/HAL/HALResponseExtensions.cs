@@ -15,6 +15,17 @@ namespace Halcyon.HAL {
             return halModel.AddLinks(links);
         }
 
+        public static HALResponse AddEmbeddedResource<T>(this HALResponse hyperMedia, string resourceName, T model, IEnumerable<Link> links = null) {
+            if(links == null) {
+                links = Enumerable.Empty<Link>();
+            }
+
+            var embedded = new HALResponse(model, hyperMedia.Config).AddLinks(links);
+            hyperMedia.AddEmbeddedResource(resourceName, embedded);
+
+            return hyperMedia;
+        }
+
         public static HALResponse AddEmbeddedCollection<T>(this HALResponse hyperMedia, string collectionName, IEnumerable<T> model, IEnumerable<Link> links = null) {
             if(links == null) {
                 links = Enumerable.Empty<Link>();
@@ -27,6 +38,22 @@ namespace Halcyon.HAL {
             hyperMedia.AddEmbeddedCollection(collectionName, embedded);
 
             return hyperMedia;
+        }
+
+        public static HALResponse AddEmbeddedResources<T>(this HALResponse response, IEnumerable<KeyValuePair<string, T>> resources) {
+            foreach(var resource in resources) {
+                response.AddEmbeddedResource(resource.Key, resource.Value);
+            }
+
+            return response;
+        }
+
+        public static HALResponse AddEmbeddedCollections<T>(this HALResponse response, IEnumerable<KeyValuePair<string, IEnumerable<T>>> embeddedCollections) {
+            foreach(var embeddedCollection in embeddedCollections) {
+                response.AddEmbeddedCollection(embeddedCollection.Key, embeddedCollection.Value);
+            }
+
+            return response;
         }
 
         public static HALResponse AddEmbeddedCollections(this HALResponse response, IEnumerable<KeyValuePair<string, IEnumerable<HALResponse>>> embeddedCollections) {

@@ -16,7 +16,7 @@ namespace Halcyon.HAL {
 
         private readonly object model;
         private readonly List<Link> links = new List<Link>();
-        private readonly Dictionary<string, IEnumerable<HALResponse>> embedded = new Dictionary<string, IEnumerable<HALResponse>>();
+        private readonly Dictionary<string, object> embedded = new Dictionary<string, object>();
 
         public HALResponse(IHALModelConfig config) {
             this.config = config ?? new HALModelConfig();
@@ -45,22 +45,22 @@ namespace Halcyon.HAL {
             return this;
         }
 
+        public HALResponse AddEmbeddedResource(string name, HALResponse resource) {
+            embedded.Add(name, resource);
+            return this;
+        }
+
         public HALResponse AddEmbeddedCollection(string name, IEnumerable<HALResponse> objects) {
             embedded.Add(name, objects);
             return this;
         }
 
-        public object ToPlainResponse(JsonSerializer serializer, bool attachEmbedded = true) {
+        public JObject ToPlainResponse(JsonSerializer serializer, bool attachEmbedded = true) {
             var output = GetBaseJObject(serializer);
 
             if(this.embedded.Any()) {
-                var plainEmbedded = this.embedded.ToDictionary(
-                        e => e.Key,
-                        e => e.Value.Select(m => m.ToPlainResponse(serializer))
-                );
-
-                var embeddedObject = JObject.FromObject(plainEmbedded);
-                output.Merge(embeddedObject);
+                var embeddedOutput = EmbeddedToJObject((m) => m.ToPlainResponse(serializer));
+                output.Merge(embeddedOutput);
             }
 
             return output;
@@ -89,15 +89,27 @@ namespace Halcyon.HAL {
             }
 
             if(this.embedded.Any()) {
-                var embeddedOutput = new JObject();
-                foreach(var embedPair in this.embedded) {
-                    embeddedOutput.Add(embedPair.Key, new JArray(embedPair.Value.Select(m => m.ToJObject(serializer))));
-                }
-
+                var embeddedOutput = EmbeddedToJObject((m) => m.ToJObject(serializer));
                 output.Add(EmbeddedKey, embeddedOutput);
             }
 
             return output;
+        }
+
+        private JObject EmbeddedToJObject(Func<HALResponse, JObject> converter) {
+            var embeddedOutput = new JObject();
+            foreach(var embedPair in this.embedded) {
+
+                if(embedPair.Value is IEnumerable<HALResponse>) {
+                    embeddedOutput.Add(embedPair.Key, JArray.FromObject(((IEnumerable<HALResponse>)embedPair.Value).Select(m => converter(m))));
+                } else if(embedPair.Value is HALResponse) {
+                    embeddedOutput.Add(embedPair.Key, JObject.FromObject(converter((HALResponse)embedPair.Value)));
+                } else {
+                    throw new NotImplementedException();
+                }
+            }
+
+            return embeddedOutput;
         }
 
         private JObject GetBaseJObject(JsonSerializer serializer) {

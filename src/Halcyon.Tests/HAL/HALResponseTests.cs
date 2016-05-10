@@ -11,9 +11,6 @@ using Xunit;
 
 namespace Halcyon.Tests.HAL {
     public class HALResponseTests {
-        private const string TestHalProperties = "\"_links\":{\"a\":{\"href\":\"one\"}},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
-        private const string TestHalPropertiesLinkArray = "\"_links\":{\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}]},\"_embedded\":{\"bars\":[{\"bar\":true}]}";
-
 
         [Theory]
         [MemberData("GetCollectionModels")]
@@ -24,26 +21,26 @@ namespace Halcyon.Tests.HAL {
         }
 
         [Theory]
-        [MemberData("GetTestModels")]
-        public void Has_Link(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
+        [MemberData("GetLinkTestModels")]
+        public void Has_Link(object model, Link[] links, string expectedHal, string expectedPlain) {
             var response = new HALResponse(model)
-                .AddLinks(linkAOne);
-
-            Assert.True(response.HasLink(linkAOne.Rel));
-            Assert.False(response.HasLink(linkB.Rel));
+                .AddLinks(links);
+                
+            Assert.True(response.HasLink("a"));
+            Assert.True(response.HasLink("b"));
+            Assert.False(response.HasLink("c"));
         }
 
-        [Theory]
-        [MemberData("GetTestModels")]
-        public void To_JObject(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
-            string expected = GetExpectedJson(false);
+        [Fact]
+        public void JObject_To_JObject() {
+            string expected = GetExpectedJson("");
+
+            var personModel = PersonModel.GetTestModel();
+            var model = JObject.FromObject(personModel);
+
+            var response = new HALResponse(model);
 
             var serializer = new JsonSerializer();
-
-            var response = new HALResponse(model)
-                .AddLinks(linkAOne)
-                .AddEmbeddedCollection(embeddedName, embedded);
-
             var jObject = response.ToJObject(serializer);
 
             string actual = jObject.ToString(Formatting.None);
@@ -51,45 +48,159 @@ namespace Halcyon.Tests.HAL {
         }
 
         [Theory]
-        [MemberData("GetTestModels")]
-        public void To_JObject_Link_Array(object model, Link linkAOne, Link linkATwo, Link linkB, string embeddedName, object[] embedded) {
-            string expected = GetExpectedJson(true);
-
+        [MemberData("GetLinkTestModels")]
+        public void Links_To_JObject(object model, Link[] links, string expectedHal, string expectedPlain) {
             var serializer = new JsonSerializer();
 
             var response = new HALResponse(model)
-                .AddLinks(linkAOne)
-                .AddLinks(linkATwo)
-                .AddEmbeddedCollection(embeddedName, embedded);
+                .AddLinks(links);
 
             var jObject = response.ToJObject(serializer);
 
             string actual = jObject.ToString(Formatting.None);
-            Assert.Equal(expected, actual);
+            Assert.Equal(expectedHal, actual);
         }
 
-        private static string GetExpectedJson(bool linkArray) {
-            string testJson = linkArray ? TestHalPropertiesLinkArray : TestHalProperties;
-            var expectedPersonJson = "{" + PersonModel.TestModelJson + "," + testJson + "}";
-            return expectedPersonJson;
+        [Theory]
+        [MemberData("GetLinkTestModels")]
+        public void Links_To_ToPlainResponse(object model, Link[] links, string expectedHal, string expectedPlain) {
+            var serializer = new JsonSerializer();
+
+            var response = new HALResponse(model)
+                .AddLinks(links);
+
+            var jObject = response.ToPlainResponse(serializer);
+
+            string actual = jObject.ToString(Formatting.None);
+            Assert.Equal(expectedPlain, actual);
         }
 
-        public static object[] GetTestModels() {
+        [Theory]
+        [MemberData("GetEmbeddedCollectionTestModels")]
+        public void Embedded_Resource_Collections_To_JObject(object model, Dictionary<string, IEnumerable<object>> embeddedCollections, string expectedHal, string expectedPlain) {
+            var serializer = new JsonSerializer();
+
+            var response = new HALResponse(model);
+            response.AddEmbeddedCollections(embeddedCollections);
+
+            var jObject = response.ToJObject(serializer);
+
+            string actual = jObject.ToString(Formatting.None);
+            Assert.Equal(expectedHal, actual);
+        }
+
+        [Theory]
+        [MemberData("GetEmbeddedCollectionTestModels")]
+        public void Embedded_Resource_Collections_ToPlainResponse(object model, Dictionary<string, IEnumerable<object>> embeddedCollections, string expectedHal, string expectedPlain) {
+            var serializer = new JsonSerializer();
+
+            var response = new HALResponse(model);
+            response.AddEmbeddedCollections(embeddedCollections);
+
+            var jObject = response.ToPlainResponse(serializer);
+
+            string actual = jObject.ToString(Formatting.None);
+            Assert.Equal(expectedPlain, actual);
+        }
+
+        [Theory]
+        [MemberData("GetEmbeddedResourceTestModels")]
+        public void Embedded_Resource_To_JObject(object model, Dictionary<string, object> embeddedResources, string expectedHal, string expectedPlain) {
+            var serializer = new JsonSerializer();
+
+            var response = new HALResponse(model);
+            response.AddEmbeddedResources(embeddedResources);
+
+            var jObject = response.ToJObject(serializer);
+
+            string actual = jObject.ToString(Formatting.None);
+            Assert.Equal(expectedHal, actual);
+        }
+
+        [Theory]
+        [MemberData("GetEmbeddedResourceTestModels")]
+        public void Embedded_Resource_To_ToPlainResponse(object model, Dictionary<string, object> embeddedResources, string expectedHal, string expectedPlain) {
+            var serializer = new JsonSerializer();
+
+            var response = new HALResponse(model);
+            response.AddEmbeddedResources(embeddedResources);
+
+            var jObject = response.ToPlainResponse(serializer);
+
+            string actual = jObject.ToString(Formatting.None);
+            Assert.Equal(expectedPlain, actual);
+        }
+
+        public static object[] GetLinkTestModels() {
+            var personModel = PersonModel.GetTestModel();
+                        
+            return new object[] {
+                new object[] { 
+                    personModel, new Link[] { new Link("a", "one"), new Link("b", "three") },
+                    GetExpectedJson("\"_links\":{\"a\":{\"href\":\"one\"},\"b\":{\"href\":\"three\"}}"),
+                    GetExpectedJson("")
+                },
+                new object[] {
+                    personModel, new Link[] { new Link("a", "one"), new Link("a", "two"), new Link("b", "three") }, 
+                    GetExpectedJson("\"_links\":{\"b\":{\"href\":\"three\"},\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}]}"),
+                    GetExpectedJson("")
+                }
+            };
+        }
+
+        public static object[] GetEmbeddedCollectionTestModels() {
             var personModel = PersonModel.GetTestModel();
 
-            var linkAOne = new Link("a", "one");
-            var linkATwo = new Link("a", "two");
-            var linkB = new Link("b", "two");
-
-            string embeddedName = "bars";
-            var embedded = new[] {
-                new { bar = true }
+            return new object[] {
+                new object[] {
+                    personModel, new Dictionary<string, IEnumerable<object>> { 
+                        { "bars", new object[] { new { bar = true } } }
+                    },
+                    GetExpectedJson("\"_embedded\":{\"bars\":[{\"bar\":true}]}"),
+                    GetExpectedJson("\"bars\":[{\"bar\":true}]")
+                },
+                new object[] {
+                    personModel, new Dictionary<string, IEnumerable<object>> {
+                        { 
+                            "bars", new object[] { 
+                                new { name = "one" },
+                                new { name = "two" }
+                            } 
+                        }
+                    },
+                    GetExpectedJson("\"_embedded\":{\"bars\":[{\"name\":\"one\"},{\"name\":\"two\"}]}"),
+                    GetExpectedJson("\"bars\":[{\"name\":\"one\"},{\"name\":\"two\"}]")
+                },
             };
+        }
+
+        public static object[] GetEmbeddedResourceTestModels() {
+            var personModel = PersonModel.GetTestModel();
 
             return new object[] {
-                new object[] { personModel, linkAOne, linkATwo, linkB, embeddedName, embedded },
-                new object[] { JObject.FromObject(personModel), linkAOne, linkATwo, linkB, embeddedName, embedded },
+                new object[] {
+                    personModel, new Dictionary<string, object> {
+                        { "bar", new { bar = true } }
+                    },
+                    GetExpectedJson("\"_embedded\":{\"bar\":{\"bar\":true}}"),
+                    GetExpectedJson("\"bar\":{\"bar\":true}")
+                },
+                new object[] {
+                    personModel, new Dictionary<string, object> {
+                        { "bar", new { name = "one" } },
+                        { "baz", new { name = "two" } }
+                    },
+                    GetExpectedJson("\"_embedded\":{\"bar\":{\"name\":\"one\"},\"baz\":{\"name\":\"two\"}}"),
+                    GetExpectedJson("\"bar\":{\"name\":\"one\"},\"baz\":{\"name\":\"two\"}")
+                },
             };
+        }
+        
+        private static string GetExpectedJson(string halProperties) {
+            if(!String.IsNullOrWhiteSpace(halProperties)) halProperties = "," + halProperties;
+
+            var expectedPersonJson = "{" + PersonModel.TestModelJson + halProperties + "}";
+            return expectedPersonJson;
         }
 
         public static object[] GetCollectionModels() {

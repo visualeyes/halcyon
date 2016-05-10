@@ -45,6 +45,9 @@ namespace Halcyon.Tests.SelfHost.WebApi.Controllers {
                 .AddLinks(new Link[] {
                     new Link("other", "/api/foo/{fooId}/bar", replaceParameters: false)
                 })
+                .AddEmbeddedResource("baz", new { name = "bazza" }, new Link[] {
+                    new Link("a", "test")
+                })
                 .AddEmbeddedCollection("bars", bars, new Link[] {
                     new Link("self", "/api/bar/{id}")
                 });
