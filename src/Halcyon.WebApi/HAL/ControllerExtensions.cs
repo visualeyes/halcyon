@@ -31,23 +31,23 @@ namespace Halcyon.WebApi.HAL {
             return hyperMedia.ToActionResult(controller, statuscode);
         }
 
-        public static IHttpActionResult HAL<T>(this ApiController controller, T model, Link link, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
-            return controller.HAL(model, new Link[] { link }, relativeLinkBase, statuscode);
+        public static IHttpActionResult HAL<T>(this ApiController controller, T model, Link link, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
+            return controller.HAL(model, new Link[] { link }, relativeLinkBase, addSelfLinkIfNotExists, statuscode);
         }
 
-        public static IHttpActionResult HAL<T>(this ApiController controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
-            if(!links.Any()) {
-                return new NegotiatedContentResult<T>(statuscode, model, controller);
-            }
-
+        public static IHttpActionResult HAL<T>(this ApiController controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
-            var hyperMedia = new HALResponse(model, new HALModelConfig {
+            var response = new HALResponse(model, new HALModelConfig {
                 LinkBase = linkBase
             })
             .AddLinks(links);
 
-            return new NegotiatedContentResult<HALResponse>(statuscode, hyperMedia, controller);
+            if(addSelfLinkIfNotExists) {
+                response.AddSelfLinkIfNotExists(controller.Request);
+            }
+
+            return new NegotiatedContentResult<HALResponse>(statuscode, response, controller);
         }
 
         public static IHttpActionResult HAL<T, E>(this ApiController controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {

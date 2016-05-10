@@ -11,11 +11,14 @@ namespace Halcyon.HAL {
 
         private static readonly Regex isTemplatedRegex = new Regex(@"{.+}", RegexOptions.Compiled);
 
-        public Link(string rel, string href, string title = null, string method = null) {
+        private readonly bool replaceParameters;
+
+        public Link(string rel, string href, string title = null, string method = null, bool replaceParameters = true) {
             this.Rel = rel;
             this.Href = href;
             this.Title = title;
             this.Method = method;
+            this.replaceParameters = replaceParameters;
         }
 
         [JsonIgnore]
@@ -55,7 +58,7 @@ namespace Halcyon.HAL {
         internal Link CreateLink(IDictionary<string, object> parameters) {
             var clone = Clone();
 
-            if(!String.IsNullOrWhiteSpace(clone.Href) && parameters != null) {
+            if(replaceParameters && !String.IsNullOrWhiteSpace(clone.Href) && parameters != null) {
                 clone.Href = clone.Href.SubstituteParams(parameters);
             }
 

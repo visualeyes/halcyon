@@ -1,6 +1,8 @@
 ﻿using Halcyon.HAL;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Routing;
+using Microsoft.AspNet.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace Halcyon.Web.HAL {
             response.AddLinks(selfLink);
             return response;
         }
-
+        
         public static IActionResult ToActionResult(this HALResponse model, Controller controller, HttpStatusCode statusCode = HttpStatusCode.OK) {
             return new ObjectResult(model) {
                 StatusCode = (int)statusCode
