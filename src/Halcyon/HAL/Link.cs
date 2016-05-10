@@ -58,8 +58,14 @@ namespace Halcyon.HAL {
         internal Link CreateLink(IDictionary<string, object> parameters) {
             var clone = Clone();
 
-            if(replaceParameters && !String.IsNullOrWhiteSpace(clone.Href) && parameters != null) {
-                clone.Href = clone.Href.SubstituteParams(parameters);
+            if(replaceParameters && parameters != null) {
+                if(!String.IsNullOrWhiteSpace(clone.Href)) {
+                    clone.Href = clone.Href.SubstituteParams(parameters);
+                }
+
+                if(!String.IsNullOrWhiteSpace(clone.Title)) {
+                    clone.Title = clone.Title.SubstituteParams(parameters);
+                }
             }
 
             return clone;
