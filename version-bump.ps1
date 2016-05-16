@@ -7,7 +7,7 @@ if($env:APPVEYOR_BUILD_FOLDER) {
 	$buildFolder = $env:APPVEYOR_BUILD_FOLDER
 }
 
-$projectFilePath = Join-Path $buildFolder "src\Halcyon.Mvc\project.json"
+$projectFilePath = Join-Path $buildFolder "src\Halcyon*\project.json"
 
 Write-Host "Bumping version for project file: $projectFilePath to $buildNumber"
 
