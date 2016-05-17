@@ -6,7 +6,8 @@ environment:
        secure: 8JYxwCWszeAaWBr41pD17LB925K7Sk7utvKsIb1qz44i2anf9uLmvh2q0ilMQTBO
 
 cache:
-  - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - '%APPDATA%\npm-cache'                               # npm cache
+  - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache
 
 configuration: Release
 
