@@ -19,12 +19,13 @@ assembly_info:
   assembly_informational_version: "{version}"
   
 install:
+  - dnvm update-self
   - dnvm upgrade
   - dnvm upgrade -r clr
 
 before_build:
   - ps: .\version-bump.ps1
-  - dnu restore
+  - appveyor-retry dnu restore
 
 build:
   verbosity: minimal
