@@ -1,6 +1,6 @@
 ﻿{
     "version": "1.1.0-alpha",
-    "description": "Adds HAL support to ASP.NET Core",
+    "description": "HAL Models for producing HAL Json",
     "authors": [ "CareerHub" ],
     "owners": [ "CareerHub" ],
     "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
@@ -9,13 +9,13 @@
     "licenseUrl": "",
     "copyright": "Copyright 2016",
     "dependencies": {
-        "Halcyon": "1.1.0-*",
-        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+        "Tavis.UriTemplates": "0.6.4",
         "Newtonsoft.Json": "7.0.1"
     },
 
     "frameworks": {
         "net451": { },
+        "net46": { },
         "dnx451": { }
     }
 }
