@@ -29,11 +29,11 @@ namespace Halcyon.Web.HAL {
             return hyperMedia.ToActionResult(controller, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, Link link, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) { // bool addSelfLinkIfNotExists = true, 
-            return controller.HAL(model, new Link[] { link }, relativeLinkBase, statuscode); // addSelfLinkIfNotExists,
+        public static IActionResult HAL<T>(this Controller controller, T model, Link link, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
+            return controller.HAL(model, new Link[] { link }, relativeLinkBase, addSelfLinkIfNotExists, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) { // bool addSelfLinkIfNotExists = true, 
+        public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var response = new HALResponse(model, new HALModelConfig {
@@ -41,9 +41,9 @@ namespace Halcyon.Web.HAL {
             })
             .AddLinks(links);
 
-            //if(addSelfLinkIfNotExists) {
-            //    response.AddSelfLinkIfNotExists(controller.Request);
-            //}
+            if(addSelfLinkIfNotExists) {
+                response.AddSelfLinkIfNotExists(controller.Request);
+            }
 
             return response.ToActionResult(controller, statuscode);
         }

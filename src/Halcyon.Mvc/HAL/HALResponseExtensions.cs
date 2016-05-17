@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 namespace Halcyon.Web.HAL {
     public static class HALResponseExtensions {
 
-        //public static HALResponse AddSelfLinkIfNotExists(this HALResponse response, HttpRequest request) {
-        //    if(!response.HasSelfLink()) {
-        //        response.AddSelfLink(request);
-        //    }
+        public static HALResponse AddSelfLinkIfNotExists(this HALResponse response, HttpRequest request) {
+            if(!response.HasSelfLink()) {
+                response.AddSelfLink(request);
+            }
 
-        //    return response;
-        //}
+            return response;
+        }
 
         public static HALResponse AddSelfLink(this HALResponse response, HttpRequest request) {
             var selfLink = new Link(Link.RelForSelf, request.Path, method: request.Method);
