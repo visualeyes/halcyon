@@ -21,11 +21,10 @@ assembly_info:
 install:
   - dnvm upgrade
   - dnvm upgrade -r clr
-  - dnu restore
 
 before_build:
-  - nuget restore src/Halcyon.sln
   - ps: .\version-bump.ps1
+  - dnu restore
 
 build:
   verbosity: minimal
