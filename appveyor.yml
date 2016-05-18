@@ -37,6 +37,8 @@ build:
   publish_nuget: false             # package projects with .nuspec files and push to artifacts
   publish_nuget_symbols: false     # generate and publish NuGet symbol packages
 
+test_script:
+  - cmd: dnx -p Halcyon.Tests\project.json test
 
 # "coveralls.io": "1.3.4",
 # "OpenCover": "4.6.519",
