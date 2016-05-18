@@ -22,6 +22,7 @@ install:
   - dnvm update-self
   - dnvm upgrade
   - dnvm upgrade -r clr
+  - nuget sources Enable -Name nuget.org -Source https://api.nuget.org/v3/index.json
   - dnu feeds list       # log what feeds we're using - in case of timeout
 
 before_build:
