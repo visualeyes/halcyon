@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.1.0-alpha",
+    "version": "2.0.0-alpha",
     "description": "Test project for Halcyon and WebAPI",
     "authors": [ "CareerHub" ],
     "owners": [ "CareerHub" ],
@@ -14,8 +14,8 @@
     },
 
     "dependencies": {
-        "Halcyon": "1.1.0-*",
-        "Halcyon.WebApi": "1.1.0-*",
+        "Halcyon": "2.0.0-*",
+        "Halcyon.WebApi": "2.0.0-*",
         "Microsoft.AspNet.WebApi.Client": "5.2.3",
         "Microsoft.AspNet.WebApi.Core": "5.2.3",
         "Microsoft.AspNet.WebApi.Owin": "5.2.3",
