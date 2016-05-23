@@ -4,7 +4,7 @@ $buildNumber = $env:APPVEYOR_BUILD_VERSION
 
 if ($env:APPVEYOR_REPO_BRANCH -eq 'develop') {
 	$buildNumber = "$buildNumber-beta"
-} else if($env:APPVEYOR_REPO_BRANCH -ne 'master') {
+} elseif ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
 	$buildNumber = "$buildNumber-$env:APPVEYOR_REPO_BRANCH"
 }
 
