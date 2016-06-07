@@ -1,16 +1,30 @@
 $ErrorActionPreference = "Stop"
 
-$buildNumber = $env:APPVEYOR_BUILD_VERSION
+$version = $env:APPVEYOR_BUILD_VERSION
+
+if ($env:APPVEYOR_REPO_BRANCH -eq 'develop') {
+	$version = "$version-beta"
+} elseif ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
+	$version = "$version-pr"
+}
+
+if ($env:APPVEYOR_REPO_TAG_NAME) {
+	$version = $env:APPVEYOR_REPO_TAG_NAME
+}
+
 $buildFolder = '.'
 
 if($env:APPVEYOR_BUILD_FOLDER) {
 	$buildFolder = $env:APPVEYOR_BUILD_FOLDER
 }
 
-$projectFilePath = Join-Path $buildFolder "src\Halcyon.Mvc\project.json"
+$projectFilePaths = Get-Item (Join-Path $buildFolder "src\Halcyon*\project.json")
 
-Write-Host "Bumping version for project file: $projectFilePath to $buildNumber"
+Write-Host "Bumping version to $version"
 
-(gc -Path $projectFilePath) `
-	-replace "(?<=`"version`":\s`")[.\w-]*(?=`",)", "$buildNumber-alpha" |
-	sc -Path $projectFilePath -Encoding UTF8
+$projectFilePaths | 
+  Foreach {
+	(gc -Path $_) `
+	  -replace "(?<=`"version`":\s`")[.\w-]*(?=`",)", "$version" |
+	  sc -Path $_ -Encoding UTF8
+  }
