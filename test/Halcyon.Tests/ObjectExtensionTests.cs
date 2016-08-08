@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,31 +9,36 @@ using Xunit;
 namespace Halcyon.Tests {
 
     public class ObjectExtensionTests {
+        private readonly int expectedNumber;
+        private readonly string expectedHello;
+        private readonly object expectedComplex;
+        private readonly object testObj;
 
-        [Fact]
-        public void Object_To_Dictionary() {
-            int expectedNumber = 1;
-            string expectedHello = "world";
-            object expectedComplex = new {
+        public ObjectExtensionTests() {
+            this.expectedNumber = 1;
+            this.expectedHello = "world";
+            this.expectedComplex = new {
                 foo = "bar"
             };
-
-            var obj = new {
+            this.testObj = new {
                 number = expectedNumber,
                 hello = expectedHello,
                 complex = expectedComplex
             };
+        }
 
-            var dict = obj.ToDictionary();
+        [Fact]
+        public void Object_To_Dictionary() {
+            var actual = this.testObj.ToDictionary();
 
-            Assert.Equal(3, dict.Count);
-            Assert.Contains("number", dict.Keys);
-            Assert.Contains("hello", dict.Keys);
-            Assert.Contains("complex", dict.Keys);
+            Assert.Equal(3, actual.Count);
+            Assert.Contains("number", actual.Keys);
+            Assert.Contains("hello", actual.Keys);
+            Assert.Contains("complex", actual.Keys);
 
-            var actualNumber = dict["number"];
-            var actualHello = dict["hello"];
-            var actualComplex = dict["complex"];
+            var actualNumber = actual["number"];
+            var actualHello = actual["hello"];
+            var actualComplex = actual["complex"];
 
             Assert.Equal(expectedNumber, actualNumber);
             Assert.Equal(expectedHello, actualHello);
@@ -46,5 +52,15 @@ namespace Halcyon.Tests {
             Assert.Same(expected, actual);
         }
 
+        [Fact]
+        public void JObject_To_Dictionary() {
+            var jObj = JObject.FromObject(this.testObj);
+            var actual = jObj.ToDictionary();
+
+            Assert.Equal(3, actual.Count);
+            Assert.Contains("number", actual.Keys);
+            Assert.Contains("hello", actual.Keys);
+            Assert.Contains("complex", actual.Keys);
+        }
     }
 }
