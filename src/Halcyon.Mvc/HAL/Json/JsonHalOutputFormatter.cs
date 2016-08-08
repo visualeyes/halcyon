@@ -1,7 +1,9 @@
 ﻿using Halcyon.HAL;
-using Microsoft.AspNet.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +16,20 @@ namespace Halcyon.Web.HAL.Json {
         private readonly JsonOutputFormatter jsonFormatter;
 
 
-        public JsonHalOutputFormatter(JsonOutputFormatter jsonFormatter, IEnumerable<string> halJsonMediaTypes = null) {
+        public JsonHalOutputFormatter(IEnumerable<string> halJsonMediaTypes = null) {
             if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
 
-            this.jsonFormatter = jsonFormatter;
+            var serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings();
+
+            this.jsonFormatter = new JsonOutputFormatter(serializerSettings, ArrayPool<Char>.Create());
+
+            this.halJsonMediaTypes = halJsonMediaTypes;
+        }
+
+        public JsonHalOutputFormatter(JsonSerializerSettings serializerSettings, IEnumerable<string> halJsonMediaTypes = null) {
+            if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
+
+            this.jsonFormatter = new JsonOutputFormatter(serializerSettings, ArrayPool<Char>.Create());
 
             this.halJsonMediaTypes = halJsonMediaTypes;
         }
@@ -27,13 +39,13 @@ namespace Halcyon.Web.HAL.Json {
         }
 
         public async Task WriteAsync(OutputFormatterWriteContext context) {
-            string mediaType = context.ContentType.MediaType;
+            string mediaType = context.ContentType.HasValue ? context.ContentType.Value : null;
 
             object value = null;
             var halResponse = ((HALResponse)context.Object);
 
             // If it is a HAL response but set to application/json - convert to a plain response
-            var serializer = Newtonsoft.Json.JsonSerializer.Create(jsonFormatter.SerializerSettings);
+            var serializer = JsonSerializer.Create();
 
             if(!halResponse.Config.ForceHAL && !halJsonMediaTypes.Contains(mediaType)) {
                 value = halResponse.ToPlainResponse(serializer);

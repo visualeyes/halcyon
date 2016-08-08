@@ -1,22 +1,27 @@
 ﻿{
-    "version": "2.0.0-alpha",
+    "version": "2.1.0",
     "description": "Adds HAL support to ASP.NET WebAPI",
     "authors": [ "CareerHub" ],
-    "owners": [ "CareerHub" ],
-    "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
-    "projectUrl": "https://github.com/visualeyes/halcyon",
-    "requireLicenseAcceptance": false,
-    "licenseUrl": "",
+    "packOptions": {
+        "repository": {
+            "url": "https://github.com/visualeyes/halcyon"
+        },
+        "owners": [ "CareerHub" ],
+        "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
+        "requireLicenseAcceptance": false,
+        "licenseUrl": ""
+    },
+
     "copyright": "Copyright 2016",
+    
     "dependencies": {
-        "Halcyon": "2.0.0-*",
+        "Halcyon": "2.1.0-*",
         "Microsoft.AspNet.WebApi.Core": "5.2.3",
         "Newtonsoft.Json": "7.0.1"
     },
 
     "frameworks": {
         "net451": { },
-        "net46": { },
-        "dnx451": { }
+        "net46": { }
     }
 }

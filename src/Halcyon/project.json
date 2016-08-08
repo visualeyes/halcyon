@@ -1,12 +1,16 @@
 ﻿{
-    "version": "2.0.0-alpha",
+    "version": "2.1.0",
     "description": "HAL Models for producing HAL Json",
     "authors": [ "CareerHub" ],
-    "owners": [ "CareerHub" ],
-    "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
-    "projectUrl": "https://github.com/visualeyes/halcyon",
-    "requireLicenseAcceptance": false,
-    "licenseUrl": "",
+    "packOptions": {
+      "repository": {
+          "url": "https://github.com/visualeyes/halcyon"
+      },
+      "owners": [ "CareerHub" ],
+      "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
+      "requireLicenseAcceptance": false,
+      "licenseUrl": ""
+    },
     "copyright": "Copyright 2016",
     "dependencies": {
         "Tavis.UriTemplates": "0.6.4",
@@ -15,7 +19,6 @@
 
     "frameworks": {
         "net451": { },
-        "net46": { },
-        "dnx451": { }
+        "net46": {}
     }
 }
