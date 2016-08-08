@@ -1,21 +1,27 @@
 ﻿{
-    "version": "2.0.0-alpha",
+    "version": "2.1.0",
     "description": "Adds HAL support to ASP.NET Core",
     "authors": [ "CareerHub" ],
-    "owners": [ "CareerHub" ],
-    "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
-    "projectUrl": "https://github.com/visualeyes/halcyon",
-    "requireLicenseAcceptance": false,
-    "licenseUrl": "",
+    "packOptions": {
+        "repository": {
+            "url": "https://github.com/visualeyes/halcyon"
+        },
+        "owners": [ "CareerHub" ],
+        "tags": [ "Hypermedia", "ASP.NET", "HAL", "JSON", "WebApi" ],
+        "requireLicenseAcceptance": false,
+        "licenseUrl": ""
+    },
+
     "copyright": "Copyright 2016",
     "dependencies": {
-        "Halcyon": "2.0.0-*",
-        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-        "Newtonsoft.Json": "7.0.1"
+        "Halcyon": "2.1.0-*",
+        "Newtonsoft.Json": "9.0.1",
+        "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0"
     },
 
     "frameworks": {
         "net451": { },
-        "dnx451": { }
+        "net46": { }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Halcyon.HAL;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Web;
 namespace Halcyon.Web.HAL {
     public static class ControllerExtensions {
 
-        public static IActionResult HAL(this Controller controller, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL(this ControllerBase controller, IEnumerable<Link> links, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var hyperMedia = new HALResponse(new HALModelConfig {
@@ -25,15 +26,15 @@ namespace Halcyon.Web.HAL {
             return hyperMedia.ToActionResult(controller, statuscode);
         }
 
-        public static IActionResult HAL(this Controller controller, HALResponse hyperMedia, HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL(this ControllerBase controller, HALResponse hyperMedia, HttpStatusCode statuscode = HttpStatusCode.OK) {
             return hyperMedia.ToActionResult(controller, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, Link link, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL<T>(this ControllerBase controller, T model, Link link, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
             return controller.HAL(model, new Link[] { link }, relativeLinkBase, addSelfLinkIfNotExists, statuscode);
         }
 
-        public static IActionResult HAL<T>(this Controller controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL<T>(this ControllerBase controller, T model, IEnumerable<Link> links, string relativeLinkBase = "~/", bool addSelfLinkIfNotExists = true, HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var response = new HALResponse(model, new HALModelConfig {
@@ -48,15 +49,15 @@ namespace Halcyon.Web.HAL {
             return response.ToActionResult(controller, statuscode);
         }
 
-        public static IActionResult HAL<T, E>(this Controller controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL<T, E>(this ControllerBase controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, Link embeddedLink, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             return controller.HAL(model, new Link[] { modelLink }, embeddedName, embeddedModel, new Link[] { embeddedLink }, relativeLinkBase, statuscode);
         }
 
-        public static IActionResult HAL<T, E>(this Controller controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, IEnumerable<Link> embeddedLinks, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL<T, E>(this ControllerBase controller, T model, Link modelLink, string embeddedName, IEnumerable<E> embeddedModel, IEnumerable<Link> embeddedLinks, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             return controller.HAL(model, new Link[] { modelLink }, embeddedName, embeddedModel, embeddedLinks, relativeLinkBase, statuscode);
         }
 
-        public static IActionResult HAL<T, E>(this Controller controller, T model, IEnumerable<Link> modelLinks, string embeddedName, IEnumerable<E> embeddedModel, IEnumerable<Link> embeddedLinks, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
+        public static IActionResult HAL<T, E>(this ControllerBase controller, T model, IEnumerable<Link> modelLinks, string embeddedName, IEnumerable<E> embeddedModel, IEnumerable<Link> embeddedLinks, string relativeLinkBase = "~/", HttpStatusCode statuscode = HttpStatusCode.OK) {
             string linkBase = GetLinkBase(controller, relativeLinkBase);
 
             var hyperMedia = new HALResponse(model, new HALModelConfig {
@@ -71,7 +72,7 @@ namespace Halcyon.Web.HAL {
         }
 
 
-        private static string GetLinkBase(Controller controller, string relativeLinkBase) {
+        private static string GetLinkBase(ControllerBase controller, string relativeLinkBase) {
             string linkBase = null;
 
             if(!String.IsNullOrWhiteSpace(relativeLinkBase)) {

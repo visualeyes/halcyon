@@ -1,0 +1,21 @@
+﻿{
+    "version": "2.0.0",
+    "testRunner": "xunit",
+
+    "dependencies": {
+        "Halcyon": "2.0.0-*",
+        "Halcyon.WebApi": "2.0.0-*",
+        "Moq": "4.6.36-alpha",
+        "xunit": "2.2.0-beta2-build3300",
+        "xunit.assert": "2.2.0-beta2-build3300",
+        "xunit.core": "2.2.0-beta2-build3300",
+        "xunit.extensibility.core": "2.2.0-beta2-build3300",
+        "xunit.extensibility.execution": "2.2.0-beta2-build3300",
+        "dotnet-test-xunit": "2.2.0-preview2-build1029"
+    },
+
+    "frameworks": {
+        "net451": { },
+        "net46": { }
+    }
+}

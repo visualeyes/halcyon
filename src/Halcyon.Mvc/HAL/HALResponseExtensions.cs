@@ -1,8 +1,8 @@
 ﻿using Halcyon.HAL;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Routing;
-using Microsoft.AspNet.Routing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +27,7 @@ namespace Halcyon.Web.HAL {
             return response;
         }
         
-        public static IActionResult ToActionResult(this HALResponse model, Controller controller, HttpStatusCode statusCode = HttpStatusCode.OK) {
+        public static IActionResult ToActionResult(this HALResponse model, ControllerBase controller, HttpStatusCode statusCode = HttpStatusCode.OK) {
             return new ObjectResult(model) {
                 StatusCode = (int)statusCode
             };
