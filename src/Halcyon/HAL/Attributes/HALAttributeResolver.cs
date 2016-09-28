@@ -10,7 +10,7 @@ namespace Halcyon.HAL.Attributes {
             var type = model.GetType();
 
             // is it worth caching this?
-            var classAttributes = Attribute.GetCustomAttributes(type);
+            var classAttributes = type.GetTypeInfo().GetCustomAttributes();
 
             foreach(var attribute in classAttributes) {
                 var modelAttribute = attribute as HalModelAttribute;
@@ -32,7 +32,7 @@ namespace Halcyon.HAL.Attributes {
 
         public IEnumerable<Link> GetLinks(object model) {
             var type = model.GetType();
-            var classAttributes = Attribute.GetCustomAttributes(type);
+            var classAttributes = type.GetTypeInfo().GetCustomAttributes();
 
             foreach(var attribute in classAttributes) {
                 var linkAttribute = attribute as HalLinkAttribute;
@@ -44,7 +44,7 @@ namespace Halcyon.HAL.Attributes {
 
         public IEnumerable<KeyValuePair<string, IEnumerable<HALResponse>>> GetEmbeddedCollections(object model, IHALModelConfig config) {
             var type = model.GetType();
-            var embeddedModelProperties = type.GetProperties().Where(x => Attribute.IsDefined(x, typeof(HalEmbeddedAttribute)));
+            var embeddedModelProperties = type.GetTypeInfo().GetProperties().Where(x => x.IsDefined(typeof(HalEmbeddedAttribute)));
 
             foreach(var propertyInfo in embeddedModelProperties) {
                 var embeddAttribute = propertyInfo.GetCustomAttribute(typeof(HalEmbeddedAttribute)) as HalEmbeddedAttribute;

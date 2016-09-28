@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Halcyon.HAL.Attributes {
     public class HALAttributeConverter : IHALConverter {
@@ -9,7 +10,7 @@ namespace Halcyon.HAL.Attributes {
             }
 
             // Is it worth caching this check?
-            return Attribute.GetCustomAttributes(type).Any(x => x is HalModelAttribute);
+            return type.GetTypeInfo().GetCustomAttributes().Any(x => x is HalModelAttribute);
         }
 
         public HALResponse Convert(object model) {
