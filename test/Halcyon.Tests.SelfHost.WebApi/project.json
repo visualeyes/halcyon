@@ -23,7 +23,7 @@
         "Microsoft.Owin": "2.0.2",
         "Microsoft.Owin.Host.HttpListener": "2.0.2",
         "Microsoft.Owin.Hosting": "2.0.2",
-        "Newtonsoft.Json": "7.0.1",
+        "Newtonsoft.Json": "9.0.1",
         "Owin": "1.0"
     },
 

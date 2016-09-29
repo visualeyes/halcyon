@@ -1,14 +1,8 @@
 ﻿using Halcyon.HAL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
-using System.Linq;
 using System.Net;
-using System.Web;
 
 namespace Halcyon.Web.HAL {
     public static class ControllerExtensions {
