@@ -139,8 +139,8 @@ namespace Halcyon.HAL {
 
             var grouped = resolved.GroupBy(r => r.Rel);
 
-            var singles = grouped.Where(g => g.Count() <= 1).ToDictionary(k => k.Key, v => v.SingleOrDefault() as object);
-            var lists = grouped.Where(g => g.Count() > 1).ToDictionary(k => k.Key, v => v.AsEnumerable() as object);
+            var singles = grouped.Where(g => g.Count() <= 1 && g.All(l => !l.IsRelArray)).ToDictionary(k => k.Key, v => v.SingleOrDefault() as object);
+            var lists = grouped.Where(g => g.Count() > 1 || g.Any(l => l.IsRelArray)).ToDictionary(k => k.Key, v => v.AsEnumerable() as object);
 
             var allLinks = singles.Concat(lists).ToDictionary(k => k.Key, v => v.Value);
 
