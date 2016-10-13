@@ -144,6 +144,16 @@ namespace Halcyon.Tests.HAL {
                     personModel, new Link[] { new Link("a", "one"), new Link("a", "two"), new Link("b", "three") }, 
                     GetExpectedJson("\"_links\":{\"b\":{\"href\":\"three\"},\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}]}"),
                     GetExpectedJson("")
+                },
+                new object[] {
+                    personModel, new Link[] { new Link("a", "one"), new Link("a", "two"), new Link("b", "three", isRelArray:true) },
+                    GetExpectedJson("\"_links\":{\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}],\"b\":[{\"href\":\"three\"}]}"),
+                    GetExpectedJson("")
+                },
+                new object[] {
+                    personModel, new Link[] { new Link("a", "one", isRelArray:true), new Link("a", "two"), new Link("b", "three") },
+                    GetExpectedJson("\"_links\":{\"b\":{\"href\":\"three\"},\"a\":[{\"href\":\"one\"},{\"href\":\"two\"}]}"),
+                    GetExpectedJson("")
                 }
             };
         }
