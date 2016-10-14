@@ -13,16 +13,20 @@ namespace Halcyon.HAL {
 
         private readonly bool replaceParameters;
 
-        public Link(string rel, string href, string title = null, string method = null, bool replaceParameters = true) {
+        public Link(string rel, string href, string title = null, string method = null, bool replaceParameters = true, bool isRelArray = false) {
             this.Rel = rel;
             this.Href = href;
             this.Title = title;
             this.Method = method;
             this.replaceParameters = replaceParameters;
+            this.IsRelArray = isRelArray;
         }
 
         [JsonIgnore]
         public string Rel { get; private set; }
+
+        [JsonIgnore]
+        public bool IsRelArray { get; private set; }
 
         [JsonProperty("href")]
         public string Href { get; private set; }

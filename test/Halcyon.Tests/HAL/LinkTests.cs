@@ -10,15 +10,16 @@ namespace Halcyon.Tests.HAL {
     public class LinkTests {
 
         [Theory]
-        [InlineData(null, null, null, null, null, null, null, null, null)]
-        [InlineData("", "", "", "", "", "", "", "", "")]
-        [InlineData("rel", "href", "title", "method", "type", "deprecation", "name", "profile", "hrefLang")]
-        public void Link_Created(string rel, string href, string title, string method, string type, string deprecation, string name, string profile, string hrefLang) {
+        [InlineData(null, null, null, null, null, null, null, null, null, false)]
+        [InlineData("", "", "", "", "", "", "", "", "", false)]
+        [InlineData("rel", "href", "title", "method", "type", "deprecation", "name", "profile", "hrefLang", true)]
+        public void Link_Created(string rel, string href, string title, string method, string type, string deprecation, string name, string profile, string hrefLang, bool isRelArray) {
             var link = new Link(
                 rel: rel,
                 href: href,
                 title: title,
-                method: method
+                method: method,
+                isRelArray: isRelArray
             ) {
                 Type = type,
                 Deprecation = deprecation,
@@ -35,6 +36,7 @@ namespace Halcyon.Tests.HAL {
             Assert.Equal(deprecation, link.Deprecation);
             Assert.Equal(name, link.Name);
             Assert.Equal(hrefLang, link.HrefLang);
+            Assert.Equal(isRelArray, link.IsRelArray);
         }
 
         [Theory]
