@@ -15,7 +15,7 @@ namespace Halcyon {
                 vardic = ToDictionary((JObject)obj);
             } else {
                 vardic = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-                var properties = obj.GetType().GetTypeInfo().DeclaredProperties;
+                var properties = obj.GetType().GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
 
                 foreach(var prop in properties) {
                     var objValue = prop.GetValue(obj, null);
