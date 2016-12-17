@@ -10,7 +10,7 @@
 [![Halcyon.WebApi Nuget Version](https://img.shields.io/nuget/v/Halcyon.WebApi.svg)](https://www.nuget.org/packages/Halcyon.WebApi/)
 [![Halcyon.WebApi Nuget Version](https://img.shields.io/nuget/vpre/Halcyon.WebApi.svg)](https://www.nuget.org/packages/Halcyon.WebApi/)
 
-**Halycon.Mvc** *(ASP.NET Core)* -
+**Halcyon.Mvc** *(ASP.NET Core)* -
 [![Halcyon.WebApi Nuget Version](https://img.shields.io/nuget/v/Halcyon.Mvc.svg)](https://www.nuget.org/packages/Halcyon.Mvc/)
 [![Halcyon.WebApi Nuget Version](https://img.shields.io/nuget/vpre/Halcyon.Mvc.svg)](https://www.nuget.org/packages/Halcyon.Mvc/)
 
