@@ -3,6 +3,7 @@
     "description": "HAL Models for producing HAL Json",
     "authors": [ "CareerHub" ],
     "packOptions": {
+      "projectUrl": "https://github.com/visualeyes/halcyon",
       "repository": {
           "url": "https://github.com/visualeyes/halcyon"
       },
