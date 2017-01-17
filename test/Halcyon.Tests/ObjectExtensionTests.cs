@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Halcyon.Tests.HAL.Models;
 using Xunit;
 
 namespace Halcyon.Tests {
@@ -43,6 +44,22 @@ namespace Halcyon.Tests {
             Assert.Equal(expectedNumber, actualNumber);
             Assert.Equal(expectedHello, actualHello);
             Assert.Equal(expectedComplex, actualComplex);
+        }
+
+        [Fact]
+        public void Object_With_Inherited_Properties_ToDictionary()
+        {
+            var model = new DogInheritsAnimalModel { Name = "Fido", Species = "Canine" };
+            var dictionary = model.ToDictionary();
+
+            Assert.Contains("Name", dictionary.Keys);
+            Assert.Contains("Species", dictionary.Keys);
+
+            var name = dictionary["Name"];
+            var species = dictionary["Species"];
+
+            Assert.Equal("Fido", name);
+            Assert.Equal("Canine", species);
         }
 
         [Fact]

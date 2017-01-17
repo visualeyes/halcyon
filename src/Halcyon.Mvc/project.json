@@ -3,6 +3,7 @@
   "description": "Adds HAL support to ASP.NET Core",
   "authors": [ "CareerHub" ],
   "packOptions": {
+    "projectUrl": "https://github.com/visualeyes/halcyon",
     "repository": {
       "url": "https://github.com/visualeyes/halcyon"
     },
