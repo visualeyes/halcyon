@@ -34,9 +34,24 @@ namespace Halcyon.Tests.HAL {
 
             var jObject = halResponse.ToJObject(serializer);
 
-            var embedded = jObject["_embedded"]["favouritePet"][0];
+            var embedded = jObject["_embedded"]["favouritePet"];
             Assert.Equal("Benji", embedded["Name"]);
             Assert.Equal("0", embedded["Id"]);
+        }
+
+        [Fact]
+        public void Embedded_Single_Property_With_Embedded_Collection_Constructed_From_Attribute()
+        {
+            var model = new PersonModelWithAttributes();
+            var converter = new HALAttributeConverter();
+
+            var halResponse = converter.Convert(model);
+            var serializer = new JsonSerializer();
+
+            var jObject = halResponse.ToJObject(serializer);
+
+            var embedded = jObject["_embedded"]["favouritePet"]["_embedded"]["toys"][0];
+            Assert.Equal("Rubber Bone", embedded["Name"]);
         }
 
         [Fact]
