@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Primitives;
 
 namespace Halcyon.Web.HAL.Json {
     public class JsonHalOutputFormatter : IOutputFormatter {
@@ -54,6 +55,7 @@ namespace Halcyon.Web.HAL.Json {
             }
 
             var jsonContext = new OutputFormatterWriteContext(context.HttpContext, context.WriterFactory, value.GetType(), value);
+            jsonContext.ContentType = new StringSegment(mediaType);
 
             await jsonFormatter.WriteAsync(jsonContext);
         }
