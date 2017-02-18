@@ -15,14 +15,15 @@ namespace Halcyon.Web.HAL.Json {
 
         private readonly IEnumerable<string> halJsonMediaTypes;
         private readonly JsonOutputFormatter jsonFormatter;
+        private readonly JsonSerializerSettings serializerSettings;
 
 
         public JsonHalOutputFormatter(IEnumerable<string> halJsonMediaTypes = null) {
             if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
 
-            var serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings();
+            this.serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings();
 
-            this.jsonFormatter = new JsonOutputFormatter(serializerSettings, ArrayPool<Char>.Create());
+            this.jsonFormatter = new JsonOutputFormatter(this.serializerSettings, ArrayPool<Char>.Create());
 
             this.halJsonMediaTypes = halJsonMediaTypes;
         }
@@ -46,7 +47,7 @@ namespace Halcyon.Web.HAL.Json {
             var halResponse = ((HALResponse)context.Object);
 
             // If it is a HAL response but set to application/json - convert to a plain response
-            var serializer = JsonSerializer.Create();
+            var serializer = JsonSerializer.Create(this.serializerSettings);
 
             if(!halResponse.Config.ForceHAL && !halJsonMediaTypes.Contains(mediaType)) {
                 value = halResponse.ToPlainResponse(serializer);

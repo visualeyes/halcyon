@@ -19,13 +19,10 @@ namespace Halcyon.HAL.Attributes {
             }
 
             var resolver = new HALAttributeResolver();
-
             var halConfig = resolver.GetConfig(model);
 
             var response = new HALResponse(model, halConfig);
-            response.AddLinks(resolver.GetLinks(model));
-            response.AddEmbeddedCollections(resolver.GetEmbeddedCollections(model, halConfig));
-
+            resolver.AddEmbeddedResources(response, model, halConfig);
             return response;
         }
     }
