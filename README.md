@@ -188,10 +188,9 @@ public IServiceProvider ConfigureServices(IServiceCollection services) {
     services
       .AddMvc()
       .AddMvcOptions(c => {
-          var jsonOutputFormatter = new JsonOutputFormatter();
+          c.OutputFormatters.RemoveType<JsonOutputFormatter>();
           c.OutputFormatters.Add(new JsonHalOutputFormatter(
-              jsonOutputFormatter,
-              halJsonMediaTypes: new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" }
+              new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" }
           ));
       })
 }
