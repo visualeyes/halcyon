@@ -30,6 +30,7 @@ namespace Halcyon.Tests.SelfHost.Mvc {
             services
                 .AddMvc()
                 .AddMvcOptions(c => {
+                    c.OutputFormatters.RemoveType<JsonOutputFormatter>();
                     c.OutputFormatters.Add(new JsonHalOutputFormatter(
                         new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" }
                     ));
