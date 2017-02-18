@@ -32,13 +32,21 @@ namespace Halcyon.Tests.HAL.Models
         public List<Pet> Pets { get; set; } = new List<Pet>();
 
         [HalEmbedded("favouritePet")]
-        public Pet FavouritePet { get; set; } = new Pet {Id = 0, Name = "Benji"};
+        public Pet FavouritePet { get; set; } = new Pet { Id = 0, Name = "Benji" };
     }
 
     [HalLink("self", "pets/{Id}")]
     public class Pet
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        [HalEmbedded("toys")]
+        public List<PetToy> PetToys { get; set; } = new List<PetToy> { new PetToy { Name = "Rubber Bone" } };
+    }
+
+    [HalLink("self", "pets/{Id}/toys/{Name}")]
+    public class PetToy
+    {
         public string Name { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace Halcyon.HAL.Attributes {
             }
         }
 
-        public IEnumerable<KeyValuePair<string, IEnumerable<HALResponse>>> GetEmbeddedCollections(object model, IHALModelConfig config) {
+        private IEnumerable<HALEmbeddedItem> GetEmbeddedCollections(object model, IHALModelConfig config) {
             var type = model.GetType();
             var embeddedModelProperties = type.GetTypeInfo().GetProperties().Where(x => x.IsDefined(typeof(HalEmbeddedAttribute)));
 
@@ -51,18 +51,43 @@ namespace Halcyon.HAL.Attributes {
                 if(embeddAttribute == null) continue;
 
                 var modelValue = propertyInfo.GetValue(model);
+                var embeddedItems = modelValue as IEnumerable<object>;
 
-                var embeddedItems = modelValue as IEnumerable<object> ?? new List<object> { modelValue };
+                IEnumerable<HALResponse> halResponses = null;
+                if (embeddedItems != null)
+                {
+                    halResponses = embeddedItems.Select(embeddedModel =>
+                    {
+                        var response = new HALResponse(embeddedModel, config);
+                        AddEmbeddedResources(response, embeddedModel, config);
+                        return response; 
+                    });
+                }
+                else
+                {
+                    var response = new HALResponse(modelValue, config);
+                    AddEmbeddedResources(response, modelValue, config);
+                    halResponses = new[] {response};
+                }
 
-                var halResponses = embeddedItems.Select(embeddedModel => {
-                    var response = new HALResponse(embeddedModel, config);
-                    response.AddLinks(this.GetLinks(embeddedModel));
-                    response.AddEmbeddedCollections(this.GetEmbeddedCollections(embeddedModel, config));
-
-                    return response;
-                });
-
-                yield return new KeyValuePair<string, IEnumerable<HALResponse>>(embeddAttribute.CollectionName, halResponses);
+                yield return new HALEmbeddedItem(embeddAttribute.CollectionName, halResponses, embeddedItems != null); 
+            }
+            
+        }
+        public void AddEmbeddedResources(HALResponse response, object modelValue, IHALModelConfig config)
+        {
+            response.AddLinks(this.GetLinks(modelValue));
+            var embeddedCollections = this.GetEmbeddedCollections(modelValue, config);
+            foreach (var embedded in embeddedCollections)
+            {
+                if (embedded.IsCollection)
+                {
+                    response.AddEmbeddedCollection(embedded.ResourceName, embedded.HALResponses);
+                }
+                else
+                {
+                    response.AddEmbeddedResource(embedded.ResourceName, embedded.HALResponses.Single());
+                }
             }
         }
     }
