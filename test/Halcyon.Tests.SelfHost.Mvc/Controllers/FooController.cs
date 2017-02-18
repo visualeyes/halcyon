@@ -15,7 +15,8 @@ namespace Halcyon.Tests.SelfHost.Mvc.Controllers {
             // Any plain old object will do
             var fooModel = new {
                 id,
-                type = "foo"
+                type = "foo",
+                CamelCase = "this should be camelCase"
             };
 
             // Return a simple resource with links to related resources
