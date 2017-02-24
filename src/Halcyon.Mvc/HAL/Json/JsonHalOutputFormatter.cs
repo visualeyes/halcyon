@@ -7,10 +7,11 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Primitives;
 
 namespace Halcyon.Web.HAL.Json {
-    public class JsonHalOutputFormatter : IOutputFormatter {
+    public class JsonHalOutputFormatter : IOutputFormatter, IApiResponseTypeMetadataProvider {
         public const string HalJsonType = "application/hal+json";
 
         private readonly IEnumerable<string> halJsonMediaTypes;
@@ -59,6 +60,40 @@ namespace Halcyon.Web.HAL.Json {
             jsonContext.ContentType = new StringSegment(mediaType);
 
             await jsonFormatter.WriteAsync(jsonContext);
+        }
+
+        public IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
+        {
+            var jsonTypes = jsonFormatter.GetSupportedContentTypes(contentType, objectType);
+
+            // If we're not being asked about a specific type, send them all including the json types
+            if (contentType == null)
+            {
+                // Add our hal types to the json types
+                var allTypes = halJsonMediaTypes.ToList();
+                allTypes.AddRange(jsonTypes);
+                return allTypes;
+            }
+
+            // HAL types can't be subsets of those supported by the json formatter (correct?)
+            // So return if supported json types are available
+            if (jsonTypes != null)
+                return jsonTypes;
+
+            // Finally, return supported HAL types given that requested
+            List<string> supportedHalTypes = null;
+            var set = new MediaType(contentType);
+            foreach (var halType in halJsonMediaTypes)
+            {
+                if (new MediaType(halType).IsSubsetOf(set))
+                {
+                    if (supportedHalTypes == null)
+                        supportedHalTypes = new List<string>();
+                    supportedHalTypes.Add(halType);
+                }
+            }
+
+            return supportedHalTypes;
         }
     }
 }
