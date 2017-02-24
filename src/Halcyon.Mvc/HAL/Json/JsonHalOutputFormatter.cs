@@ -38,11 +38,12 @@ namespace Halcyon.Web.HAL.Json {
             return context.ObjectType == typeof(HALResponse) || jsonFormatter.CanWriteResult(context);
         }
 
-        public Task WriteAsync(OutputFormatterWriteContext context) {
+        public async Task WriteAsync(OutputFormatterWriteContext context) {
             var halResponse = context.Object as HALResponse;
             if (halResponse == null)
             {
-                return jsonFormatter.WriteAsync(context);
+                await jsonFormatter.WriteAsync(context);
+                return;
             }
 
             string mediaType = context.ContentType.HasValue ? context.ContentType.Value : null;
@@ -61,7 +62,7 @@ namespace Halcyon.Web.HAL.Json {
             var jsonContext = new OutputFormatterWriteContext(context.HttpContext, context.WriterFactory, value.GetType(), value);
             jsonContext.ContentType = new StringSegment(mediaType);
 
-            return jsonFormatter.WriteAsync(jsonContext);
+            await jsonFormatter.WriteAsync(jsonContext);
         }
     }
 }
