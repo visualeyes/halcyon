@@ -1,6 +1,5 @@
 ﻿using Halcyon.HAL;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
 using System.Buffers;
@@ -16,7 +15,6 @@ namespace Halcyon.Web.HAL.Json {
         private readonly IEnumerable<string> halJsonMediaTypes;
         private readonly JsonOutputFormatter jsonFormatter;
         private readonly JsonSerializerSettings serializerSettings;
-
 
         public JsonHalOutputFormatter(IEnumerable<string> halJsonMediaTypes = null) {
             if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
@@ -37,14 +35,19 @@ namespace Halcyon.Web.HAL.Json {
         }
 
         public bool CanWriteResult(OutputFormatterCanWriteContext context) {
-            return context.ObjectType == typeof(HALResponse);
+            return context.ObjectType == typeof(HALResponse) || jsonFormatter.CanWriteResult(context);
         }
 
-        public async Task WriteAsync(OutputFormatterWriteContext context) {
+        public Task WriteAsync(OutputFormatterWriteContext context) {
+            var halResponse = context.Object as HALResponse;
+            if (halResponse == null)
+            {
+                return jsonFormatter.WriteAsync(context);
+            }
+
             string mediaType = context.ContentType.HasValue ? context.ContentType.Value : null;
 
             object value = null;
-            var halResponse = ((HALResponse)context.Object);
 
             // If it is a HAL response but set to application/json - convert to a plain response
             var serializer = JsonSerializer.Create(this.serializerSettings);
@@ -58,7 +61,7 @@ namespace Halcyon.Web.HAL.Json {
             var jsonContext = new OutputFormatterWriteContext(context.HttpContext, context.WriterFactory, value.GetType(), value);
             jsonContext.ContentType = new StringSegment(mediaType);
 
-            await jsonFormatter.WriteAsync(jsonContext);
+            return jsonFormatter.WriteAsync(jsonContext);
         }
     }
 }
