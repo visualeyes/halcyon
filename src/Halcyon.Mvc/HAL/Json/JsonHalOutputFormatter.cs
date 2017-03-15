@@ -16,8 +16,9 @@ namespace Halcyon.Web.HAL.Json {
         private readonly IEnumerable<string> halJsonMediaTypes;
         private readonly JsonOutputFormatter jsonFormatter;
         private readonly JsonSerializerSettings serializerSettings;
+        private readonly IHALConverter[] converters;
 
-        public JsonHalOutputFormatter(IEnumerable<string> halJsonMediaTypes = null) {
+        public JsonHalOutputFormatter(IEnumerable<string> halJsonMediaTypes = null, params IHALConverter[] converters) {
             if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
 
             this.serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings();
@@ -25,15 +26,20 @@ namespace Halcyon.Web.HAL.Json {
             this.jsonFormatter = new JsonOutputFormatter(this.serializerSettings, ArrayPool<Char>.Create());
 
             this.halJsonMediaTypes = halJsonMediaTypes;
+
+            this.converters = converters ?? new IHALConverter[0];
         }
 
-        public JsonHalOutputFormatter(JsonSerializerSettings serializerSettings, IEnumerable<string> halJsonMediaTypes = null) {
+        public JsonHalOutputFormatter(JsonSerializerSettings serializerSettings, IEnumerable<string> halJsonMediaTypes = null, params IHALConverter[] converters) {
             if(halJsonMediaTypes == null) halJsonMediaTypes = new string[] { HalJsonType };
 
             this.serializerSettings = serializerSettings;
+
             this.jsonFormatter = new JsonOutputFormatter(this.serializerSettings, ArrayPool<Char>.Create());
 
             this.halJsonMediaTypes = halJsonMediaTypes;
+
+            this.converters = converters ?? new IHALConverter[0];
         }
 
         public bool CanWriteResult(OutputFormatterCanWriteContext context) {
@@ -44,8 +50,14 @@ namespace Halcyon.Web.HAL.Json {
             var halResponse = context.Object as HALResponse;
             if (halResponse == null)
             {
-                await jsonFormatter.WriteAsync(context);
-                return;
+                var converter = converters.FirstOrDefault(c => c.CanConvert(context.ObjectType));
+                if (converter == null)
+                {
+                    await jsonFormatter.WriteAsync(context);
+                    return;
+                }
+
+                halResponse = converter.Convert(context.Object);
             }
 
             string mediaType = context.ContentType.HasValue ? context.ContentType.Value : null;

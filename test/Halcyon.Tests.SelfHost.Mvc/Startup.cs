@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Halcyon.HAL.Attributes;
 
 namespace Halcyon.Tests.SelfHost.Mvc {
     public class Startup {
@@ -32,7 +33,8 @@ namespace Halcyon.Tests.SelfHost.Mvc {
                 .AddMvcOptions(c => {
                     c.OutputFormatters.RemoveType<JsonOutputFormatter>();
                     c.OutputFormatters.Add(new JsonHalOutputFormatter(
-                        new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" }
+                        new string[] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" },
+                        converters: new HALAttributeConverter()
                     ));
                 });
         }
