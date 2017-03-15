@@ -42,8 +42,7 @@ namespace Halcyon.Web.HAL.Json {
             this.converters = converters ?? new IHALConverter[0];
         }
 
-        public bool CanWriteResult(OutputFormatterCanWriteContext context)
-        {
+        public bool CanWriteResult(OutputFormatterCanWriteContext context) {
             return context.ObjectType == typeof(HALResponse) || converters.Any(c => c.CanConvert(context.ObjectType)) ||
                    jsonFormatter.CanWriteResult(context);
         }
