@@ -15,6 +15,7 @@
 
     "dependencies": {
         "Halcyon.Mvc": "2.2.0-*",
+        "Halcyon.Tests": "2.0.0",
         "Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.0",
         "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
