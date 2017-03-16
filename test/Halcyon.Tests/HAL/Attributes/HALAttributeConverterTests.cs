@@ -29,5 +29,41 @@ namespace Halcyon.Tests.HAL {
 
             Assert.False(converter.CanConvert(model.GetType()));
         }
+
+        [Fact]
+        public void Should_use_default_model_config() {
+            var model = new HalModelNoConfig();
+            var defaultConfig = new HALModelConfig {
+                LinkBase = "foo",
+                ForceHAL = false
+            };
+            var converter = new HALAttributeConverter(defaultConfig);
+
+            Assert.True(converter.CanConvert(model.GetType()));
+            Assert.Equal(defaultConfig, converter.Convert(model).Config);
+        }
+
+        [Fact]
+        public void Should_use_model_config_from_attribute()
+        {
+            var model = new HalModelWithConfig();
+            var defaultConfig = new HALModelConfig
+            {
+                LinkBase = "foo",
+                ForceHAL = false
+            };
+            var converter = new HALAttributeConverter(defaultConfig);
+
+            Assert.True(converter.CanConvert(model.GetType()));
+            var modelConfig = converter.Convert(model).Config;
+            Assert.NotNull(modelConfig);
+            Assert.NotEqual(defaultConfig, modelConfig);
+        }
     }
+
+    [HalModel]
+    class HalModelNoConfig {}
+
+    [HalModel("bar", true)]
+    class HalModelWithConfig {}
 }
