@@ -3,8 +3,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace Halcyon.HAL.Attributes {
-    public class HALAttributeConverter : IHALConverter
-    {
+    public class HALAttributeConverter : IHALConverter {
 
         private readonly HALModelConfig defaultConfig;
 
