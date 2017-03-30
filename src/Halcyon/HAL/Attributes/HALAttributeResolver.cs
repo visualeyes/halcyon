@@ -63,11 +63,15 @@ namespace Halcyon.HAL.Attributes {
                         return response; 
                     });
                 }
-                else
+                else if (modelValue != null)
                 {
                     var response = new HALResponse(modelValue, config);
                     AddEmbeddedResources(response, modelValue, config);
                     halResponses = new[] {response};
+                }
+                else
+                {
+                    continue;
                 }
 
                 yield return new HALEmbeddedItem(embeddAttribute.CollectionName, halResponses, embeddedItems != null); 

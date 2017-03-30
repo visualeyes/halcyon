@@ -71,5 +71,17 @@ namespace Halcyon.Tests.HAL {
 
             Assert.Equal("~/api/person?index=5", links["self"]["href"]);
         }
+
+        [Fact]
+        public void Embedded_Null_Enumerable_Constructed_From_Attribute() {
+            var model = new PersonModelWithNullEmbeddedAttribute();
+            var converter = new HALAttributeConverter();
+
+            var halResponse = converter.Convert(model);
+            var serializer = new JsonSerializer();
+            var jObject = halResponse.ToJObject(serializer);
+
+            Assert.Null(jObject["_embedded"]);
+        }
     }
 }
