@@ -131,10 +131,10 @@ namespace Halcyon.Tests.HAL {
             Assert.Equal(expectedPlain, actual);
         }
 
-        public static object[] GetLinkTestModels() {
+        public static IEnumerable<object[]> GetLinkTestModels() {
             var personModel = PersonModel.GetTestModel();
                         
-            return new object[] {
+            return new object[][] {
                 new object[] { 
                     personModel, new Link[] { new Link("a", "one"), new Link("b", "three") },
                     GetExpectedJson("\"_links\":{\"a\":{\"href\":\"one\"},\"b\":{\"href\":\"three\"}}"),
@@ -158,10 +158,10 @@ namespace Halcyon.Tests.HAL {
             };
         }
 
-        public static object[] GetEmbeddedCollectionTestModels() {
+        public static IEnumerable<object[]> GetEmbeddedCollectionTestModels() {
             var personModel = PersonModel.GetTestModel();
 
-            return new object[] {
+            return new object[][] {
                 new object[] {
                     personModel, new Dictionary<string, IEnumerable<object>> { 
                         { "bars", new object[] { new { bar = true } } }
@@ -184,10 +184,10 @@ namespace Halcyon.Tests.HAL {
             };
         }
 
-        public static object[] GetEmbeddedResourceTestModels() {
+        public static IEnumerable<object[]> GetEmbeddedResourceTestModels() {
             var personModel = PersonModel.GetTestModel();
 
-            return new object[] {
+            return new object[][] {
                 new object[] {
                     personModel, new Dictionary<string, object> {
                         { "bar", new { bar = true } }
@@ -213,8 +213,8 @@ namespace Halcyon.Tests.HAL {
             return expectedPersonJson;
         }
 
-        public static object[] GetCollectionModels() {
-            return new object[] {
+        public static IEnumerable<object[]> GetCollectionModels() {
+            return new object[][] {
                 new object[] { new int[0] },
                 new object[] { Enumerable.Empty<int>() },
             };
