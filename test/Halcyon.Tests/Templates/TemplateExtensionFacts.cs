@@ -16,8 +16,8 @@ namespace Halcyon.Tests.Templates {
             Assert.Equal(expected, actual);
         }
 
-        public static object[] GetLinks() {
-            return new object[] {
+        public static IEnumerable<object[]> GetLinks() {
+            return new object[][] {
                 new object[] {
                     "api/test/{id}",
                     new Dictionary<string, object> {

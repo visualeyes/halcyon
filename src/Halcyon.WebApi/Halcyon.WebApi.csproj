@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Adds HAL support to ASP.NET WebAPI</Description>
+    <Copyright>Copyright 2016</Copyright>
+    <VersionPrefix>2.1.0</VersionPrefix>
+    <Authors>CareerHub</Authors>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <AssemblyName>Halcyon.WebApi</AssemblyName>
+    <PackageId>Halcyon.WebApi</PackageId>
+    <PackageTags>Hypermedia;ASP.NET;HAL;JSON;WebApi</PackageTags>
+    <RepositoryUrl>https://github.com/visualeyes/halcyon</RepositoryUrl>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <ProjectReference Include="..\Halcyon\Halcyon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+
+</Project>
