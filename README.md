@@ -195,8 +195,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services) {
       })
 }
 ```
-This will return responses without the HAL properties for requests that send an Accept Type included in the ``jsonMediaTypes`` array.
-Embedded collections will be attached at the root of the JSON Object.
+This will return responses with the HAL properties for requests that send an Accept Type included in the ``halJsonMediaTypes`` array. For any other requests where the Accept Type is not in the ``jsonMediaTypes array``, Embedded collections will be attached at the root of the JSON Object.
 
 ```json
 {
